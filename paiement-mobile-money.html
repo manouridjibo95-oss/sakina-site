@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paiement Mobile Money — Sakina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal-900:#123832; --teal-700:#1B4D3E;
+    --sand-100:#F4EEE1; --sand-50:#FAF6ED;
+    --gold-500:#B8925A; --ink-900:#2B2621; --ink-600:#5A5248; --line:#DFD5BE;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--teal-900); color:var(--ink-900);
+    font-family:'Work Sans', sans-serif;
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .card{
+    background:var(--sand-50); border-radius:6px; padding:40px 32px;
+    max-width:460px; width:100%; box-shadow:0 30px 60px -30px rgba(0,0,0,0.5);
+  }
+  .eyebrow{font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-500); font-weight:600; margin-bottom:10px;}
+  h1{font-family:'Fraunces', serif; font-size:1.6rem; color:var(--teal-900); font-weight:500;}
+  p.sub{margin-top:10px; color:var(--ink-600); font-size:0.9rem;}
+  .instructions{
+    background:var(--sand-100); border:1px solid var(--line); border-radius:5px;
+    padding:20px; margin-top:24px;
+  }
+  .instructions ol{margin-left:18px; margin-top:10px;}
+  .instructions li{margin-bottom:10px; font-size:0.92rem; line-height:1.5;}
+  .number{
+    font-family:'Fraunces', serif; font-size:1.3rem; color:var(--teal-900);
+    background:#fff; border:1px solid var(--line); border-radius:4px;
+    padding:10px 14px; text-align:center; margin:10px 0; letter-spacing:0.05em;
+  }
+  .amount{font-weight:600; color:var(--teal-900);}
+  form{margin-top:24px; display:flex; flex-direction:column; gap:14px;}
+  label{font-size:0.85rem; font-weight:500; color:var(--ink-900); display:block; margin-bottom:5px;}
+  input, select{
+    width:100%; padding:11px 13px; border:1px solid var(--line); border-radius:3px;
+    font-family:'Work Sans', sans-serif; font-size:0.92rem; background:#fff;
+  }
+  input:focus, select:focus{outline:2px solid var(--gold-500); outline-offset:1px; border-color:var(--gold-500);}
+  button{
+    margin-top:6px; padding:13px; border:none; border-radius:3px;
+    background:var(--teal-700); color:var(--sand-50); font-weight:500; font-size:0.95rem;
+    cursor:pointer;
+  }
+  .back{display:block; margin-top:20px; text-align:center; font-size:0.85rem; color:var(--ink-600); text-decoration:none;}
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="eyebrow">Sakina</div>
+    <h1>Payer par Mobile Money</h1>
+    <p class="sub">Passez à Premium via MyNITA ou AmanaTa.</p>
+
+    <div class="instructions">
+      <strong>Comment payer :</strong>
+      <ol>
+        <li>Ouvrez votre application <strong>MyNITA</strong> ou <strong>AmanaTa</strong></li>
+        <li>Envoyez <span class="amount">2 000 F CFA</span> au numéro :
+          <div class="number">98 15 20 90</div>
+        </li>
+        <li>Une fois le transfert effectué, remplissez le formulaire ci-dessous avec la référence de votre transaction</li>
+        <li>Votre compte Premium sera activé sous 24h après vérification</li>
+      </ol>
+    </div>
+
+    <form name="confirmation-paiement" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-paiement.html">
+      <input type="hidden" name="form-name" value="confirmation-paiement">
+      <p class="hidden">
+        <label>Ne pas remplir : <input name="bot-field"></label>
+      </p>
+      <div>
+        <label for="email">Votre email (compte Sakina)</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div>
+        <label for="app">Application utilisée</label>
+        <select id="app" name="app" required>
+          <option value="">Choisir</option>
+          <option value="MyNITA">MyNITA</option>
+          <option value="AmanaTa">AmanaTa</option>
+        </select>
+      </div>
+      <div>
+        <label for="reference">Référence de la transaction</label>
+        <input type="text" id="reference" name="reference" required placeholder="Ex : indiquée dans votre reçu">
+      </div>
+      <button type="submit">Confirmer mon paiement</button>
+    </form>
+
+    <a href="/" class="back">← Retour à l'accueil</a>
+  </div>
+</body>
+</html>
