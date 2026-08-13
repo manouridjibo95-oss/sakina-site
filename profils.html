@@ -61,7 +61,10 @@
           <div class="meta">${escapeHtml(p.city)}</div>
           ${p.practice ? `<span class="tag">${practiceLabels[p.practice] || escapeHtml(p.practice)}</span>` : ''}
           ${p.bio ? `<div class="bio">${escapeHtml(p.bio)}</div>` : ''}
-          <a class="contact-btn" href="/messagerie.html?to=${p.user_id}&name=${encodeURIComponent(p.first_name)}">Contacter</a>
+          <div style="display:flex; gap:8px; margin-top:12px;">
+            <button class="contact-btn" style="border:none; cursor:pointer; font-family:inherit;" onclick="sendIntention(${p.user_id})">Envoyer une intention</button>
+            <a class="contact-btn" href="/messagerie.html?to=${p.user_id}&name=${encodeURIComponent(p.first_name)}">Contacter</a>
+          </div>
         </div>
       `).join('');
     })
