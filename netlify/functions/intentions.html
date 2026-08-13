@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intentions — Sakina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal-900:#123832; --teal-700:#1B4D3E;
+    --sand-100:#F4EEE1; --sand-50:#FAF6ED;
+    --gold-500:#B8925A; --ink-900:#2B2621; --ink-600:#5A5248; --line:#DFD5BE;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--sand-50); color:var(--ink-900); font-family:'Work Sans', sans-serif; padding:24px 16px 60px;}
+  .wrap{max-width:640px; margin:0 auto;}
+  h1{font-family:'Fraunces', serif; font-size:1.6rem; color:var(--teal-900); margin-bottom:6px;}
+  .back{display:inline-block; margin-bottom:20px; font-size:0.85rem; color:var(--ink-600); text-decoration:none;}
+  h2{font-family:'Fraunces', serif; font-size:1.1rem; color:var(--teal-900); margin:28px 0 12px;}
+  .grid{display:flex; flex-direction:column; gap:12px;}
+  .card{
+    background:var(--sand-100); border:1px solid var(--line); border-radius:5px; padding:16px 18px;
+    display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
+  }
+  .card .name{font-family:'Fraunces', serif; font-size:1.05rem; color:var(--teal-900);}
+  .card .meta{font-size:0.82rem; color:var(--ink-600); margin-top:2px;}
+  .actions{display:flex; gap:8px;}
+  .btn{padding:7px 14px; border-radius:3px; font-size:0.82rem; font-weight:500; border:none; cursor:pointer; text-decoration:none;}
+  .btn-accept{background:var(--teal-700); color:var(--sand-50);}
+  .btn-decline{background:transparent; border:1px solid var(--line); color:var(--ink-600);}
+  .status{font-size:0.78rem; padding:4px 10px; border-radius:20px; font-weight:500;}
+  .status.pending{background:#F0E6D2; color:var(--gold-500);}
+  .status.accepted{background:#E4EFE9; color:var(--teal-700);}
+  .status.declined{background:#EFE6E2; color:var(--ink-600);}
+  .empty{color:var(--ink-600); font-size:0.9rem; text-align:center; padding:20px 0;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a href="/profils.html" class="back">← Profils</a>
+    <h1>Mes intentions</h1>
+
+    <h2>Reçues</h2>
+    <div class="grid" id="receivedGrid"><div class="empty">Chargement…</div></div>
+
+    <h2>Envoyées</h2>
+    <div class="grid" id="sentGrid"><div class="empty">Chargement…</div></div>
+  </div>
+
+<script>
+  const userJson = localStorage.getItem('sakina_user');
+  const receivedGrid = document.getElementById('receivedGrid');
+  const sentGrid = document.getElementById('sentGrid');
+
+  if (!userJson) {
+    receivedGrid.innerHTML = '<div class="empty">Connectez-vous pour voir vos intentions.</div>';
+    sentGrid.innerHTML = '';
+  } else {
+    const user = JSON.parse(userJson);
+    load(user);
+  }
+
+  async function load(user) {
+    try {
+      const res = await fetch(`/api/get-intentions?userId=${user.id}`);
+      const data = await res.json();
+      renderReceived(data.received || [], user);
+      renderSent(data.sent || []);
+    } catch (err) {
+      receivedGrid.innerHTML = '<div class="empty">Impossible de charger.</div>';
+      sentGrid.innerHTML = '';
+    }
+  }
+
+  function renderReceived(list, user) {
+    if (list.length === 0) {
+      receivedGrid.innerHTML = '<div class="empty">Aucune intention reçue pour le moment.</div>';
+      return;
+    }
+    receivedGrid.innerHTML = list.map(i => `
+      <div class="card">
+        <div>
+          <div class="name">${escapeHtml(i.first_name)}, ${i.age} ans</div>
+          <div class="meta">${escapeHtml(i.city)}</div>
+        </div>
+        ${i.status === 'pending' ? `
+          <div class="actions">
+            <button class="btn btn-accept" onclick="respond(${i.id}, 'accepted', ${user.id})">Accepter</button>
+            <button class="btn btn-decline" onclick="respond(${i.id}, 'declined', ${user.id})">Décliner</button>
+          </div>
+        ` : `<span class="status ${i.status}">${i.status === 'accepted' ? 'Acceptée' : 'Déclinée'}</span>`}
+      </div>
+    `).join('');
+  }
+
+  function renderSent(list) {
+    if (list.length === 0) {
+      sentGrid.innerHTML = '<div class="empty">Aucune intention envoyée pour le moment.</div>';
+      return;
+    }
+    sentGrid.innerHTML = list.map(i => `
+      <div class="card">
+        <div>
+          <div class="name">${escapeHtml(i.first_name)}, ${i.age} ans</div>
+          <div class="meta">${escapeHtml(i.city)}</div>
+        </div>
+        <span class="status ${i.status}">${i.status === 'pending' ? 'En attente' : i.status === 'accepted' ? 'Acceptée' : 'Déclinée'}</span>
+      </div>
+    `).join('');
+  }
+
+  async function respond(intentionId, status, recipientId) {
+    try {
+      await fetch('/api/respond-intention', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ intentionId, recipientId, status }),
+      });
+      const user = JSON.parse(localStorage.getItem('sakina_user'));
+      load(user);
+    } catch (err) {}
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+</script>
+</body>
+</html>
