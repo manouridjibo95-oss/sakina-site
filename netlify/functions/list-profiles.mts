@@ -9,7 +9,7 @@ export default async (req: Request, context: Context) => {
   const db = getDatabase();
 
   const profiles = await db.sql`
-    SELECT first_name, age, city, gender, practice, bio
+    SELECT user_id, first_name, age, city, gender, practice, bio
     FROM profiles
     ORDER BY created_at DESC
     LIMIT 50
