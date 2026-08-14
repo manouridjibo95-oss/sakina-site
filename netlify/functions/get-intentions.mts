@@ -16,17 +16,21 @@ export default async (req: Request, context: Context) => {
   const db = getDatabase();
 
   const received = await db.sql`
-    SELECT i.id, i.status, i.created_at, p.user_id, p.first_name, p.age, p.city
+    SELECT i.id, i.status, i.created_at, u.id AS user_id,
+           COALESCE(p.first_name, u.email) AS first_name, p.age, p.city
     FROM intentions i
-    JOIN profiles p ON p.user_id = i.sender_id
+    JOIN users u ON u.id = i.sender_id
+    LEFT JOIN profiles p ON p.user_id = i.sender_id
     WHERE i.recipient_id = ${userId}
     ORDER BY i.created_at DESC
   `;
 
   const sent = await db.sql`
-    SELECT i.id, i.status, i.created_at, p.user_id, p.first_name, p.age, p.city
+    SELECT i.id, i.status, i.created_at, u.id AS user_id,
+           COALESCE(p.first_name, u.email) AS first_name, p.age, p.city
     FROM intentions i
-    JOIN profiles p ON p.user_id = i.recipient_id
+    JOIN users u ON u.id = i.recipient_id
+    LEFT JOIN profiles p ON p.user_id = i.recipient_id
     WHERE i.sender_id = ${userId}
     ORDER BY i.created_at DESC
   `;
