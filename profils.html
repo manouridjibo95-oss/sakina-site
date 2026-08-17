@@ -61,6 +61,7 @@
           <div class="name">${escapeHtml(p.first_name)}, ${p.age} ans</div>
           <div class="meta">${escapeHtml(p.city)}</div>
           ${p.practice ? `<span class="tag">${practiceLabels[p.practice] || escapeHtml(p.practice)}</span>` : ''}
+          ${p.wali_name ? `<span class="tag">Wali ajouté</span>` : ''}
           ${p.bio ? `<div class="bio">${escapeHtml(p.bio)}</div>` : ''}
           <div style="display:flex; gap:8px; margin-top:12px;">
             <button class="contact-btn" style="border:none; cursor:pointer; font-family:inherit;" onclick="sendIntention(${p.user_id})">Envoyer une intention</button>
