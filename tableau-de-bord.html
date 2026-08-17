@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon tableau de bord — Sakina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal-900:#123832; --teal-700:#1B4D3E;
+    --sand-100:#F4EEE1; --sand-50:#FAF6ED;
+    --gold-500:#B8925A; --ink-900:#2B2621; --ink-600:#5A5248; --line:#DFD5BE;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--sand-50); color:var(--ink-900); font-family:'Work Sans', sans-serif; padding:24px 16px 60px;}
+  .wrap{max-width:640px; margin:0 auto;}
+  h1{font-family:'Fraunces', serif; font-size:1.6rem; color:var(--teal-900); margin-bottom:6px;}
+  .back{display:inline-block; margin-bottom:20px; font-size:0.85rem; color:var(--ink-600); text-decoration:none;}
+  .signin-notice{background:#FBE8E4; color:#8A2E1E; padding:14px; border-radius:3px; font-size:0.9rem; margin-top:20px;}
+  .signin-notice a{color:#8A2E1E; font-weight:600;}
+
+  .stats{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:24px;}
+  .stat-card{
+    background:var(--sand-100); border:1px solid var(--line); border-radius:5px;
+    padding:20px; text-align:center;
+  }
+  .stat-card .num{font-family:'Fraunces', serif; font-size:2rem; color:var(--teal-900);}
+  .stat-card .label{font-size:0.82rem; color:var(--ink-600); margin-top:4px;}
+
+  .completion{
+    margin-top:20px; background:var(--sand-100); border:1px solid var(--line); border-radius:5px; padding:20px;
+  }
+  .completion-head{display:flex; justify-content:space-between; align-items:baseline;}
+  .completion-head .title{font-size:0.92rem; font-weight:500; color:var(--ink-900);}
+  .completion-head .pct{font-family:'Fraunces', serif; font-size:1.3rem; color:var(--gold-500);}
+  .bar{height:8px; background:var(--line); border-radius:4px; margin-top:12px; overflow:hidden;}
+  .bar-fill{height:100%; background:var(--gold-500); border-radius:4px;}
+  .completion-note{margin-top:12px; font-size:0.85rem; color:var(--ink-600);}
+  .completion-note a{color:var(--teal-700); font-weight:500;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a href="/" class="back">← Retour à l'accueil</a>
+    <h1>Mon tableau de bord</h1>
+
+    <div id="authNotice" class="signin-notice" style="display:none;">
+      Vous devez d'abord <a href="/connexion.html">vous connecter</a>.
+    </div>
+
+    <div id="content" style="display:none;">
+      <div class="stats">
+        <div class="stat-card">
+          <div class="num" id="intentionsCount">–</div>
+          <div class="label">Intentions reçues</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" id="sentCount">–</div>
+          <div class="label">Intentions envoyées</div>
+        </div>
+      </div>
+
+      <div class="completion">
+        <div class="completion-head">
+          <div class="title">Profil complété</div>
+          <div class="pct" id="pctLabel">–</div>
+        </div>
+        <div class="bar"><div class="bar-fill" id="barFill" style="width:0%;"></div></div>
+        <div class="completion-note" id="completionNote"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const userJson = localStorage.getItem('sakina_user');
+  const authNotice = document.getElementById('authNotice');
+  const content = document.getElementById('content');
+
+  if (!userJson) {
+    authNotice.style.display = 'block';
+  } else {
+    content.style.display = 'block';
+    const user = JSON.parse(userJson);
+    loadStats(user);
+    loadCompletion(user);
+  }
+
+  async function loadStats(user) {
+    try {
+      const res = await fetch(`/api/get-intentions?userId=${user.id}`);
+      const data = await res.json();
+      document.getElementById('intentionsCount').textContent = (data.received || []).length;
+      document.getElementById('sentCount').textContent = (data.sent || []).length;
+    } catch (err) {
+      document.getElementById('intentionsCount').textContent = '–';
+      document.getElementById('sentCount').textContent = '–';
+    }
+  }
+
+  async function loadCompletion(user) {
+    try {
+      const res = await fetch(`/api/get-profile?userId=${user.id}`);
+      const data = await res.json();
+      const profile = data.profile;
+      const note = document.getElementById('completionNote');
+
+      if (!profile) {
+        document.getElementById('pctLabel').textContent = '0%';
+        document.getElementById('barFill').style.width = '0%';
+        note.innerHTML = 'Vous n\'avez pas encore de profil. <a href="/profil.html">Créez-le maintenant</a>.';
+        return;
+      }
+
+      const fields = ['first_name', 'age', 'city', 'gender', 'bio', 'practice', 'wali_name'];
+      const filled = fields.filter(f => profile[f] !== null && profile[f] !== '' && profile[f] !== undefined).length;
+      const pct = Math.round((filled / fields.length) * 100);
+
+      document.getElementById('pctLabel').textContent = pct + '%';
+      document.getElementById('barFill').style.width = pct + '%';
+      note.innerHTML = pct < 100
+        ? 'Complétez-le pour être vu davantage. <a href="/profil.html">Compléter mon profil</a>.'
+        : 'Votre profil est complet !';
+    } catch (err) {
+      document.getElementById('pctLabel').textContent = '–';
+    }
+  }
+</script>
+</body>
+</html>
