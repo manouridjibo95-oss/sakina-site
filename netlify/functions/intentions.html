@@ -81,8 +81,8 @@
     receivedGrid.innerHTML = list.map(i => `
       <div class="card">
         <div>
-          <div class="name">${escapeHtml(i.first_name)}, ${i.age} ans</div>
-          <div class="meta">${escapeHtml(i.city)}</div>
+          <div class="name">${escapeHtml(i.first_name)}${i.age ? `, ${i.age} ans` : ''}</div>
+          ${i.city ? `<div class="meta">${escapeHtml(i.city)}</div>` : ''}
         </div>
         ${i.status === 'pending' ? `
           <div class="actions">
@@ -102,8 +102,8 @@
     sentGrid.innerHTML = list.map(i => `
       <div class="card">
         <div>
-          <div class="name">${escapeHtml(i.first_name)}, ${i.age} ans</div>
-          <div class="meta">${escapeHtml(i.city)}</div>
+          <div class="name">${escapeHtml(i.first_name)}${i.age ? `, ${i.age} ans` : ''}</div>
+          ${i.city ? `<div class="meta">${escapeHtml(i.city)}</div>` : ''}
         </div>
         <span class="status ${i.status}">${i.status === 'pending' ? 'En attente' : i.status === 'accepted' ? 'Acceptée' : 'Déclinée'}</span>
       </div>
