@@ -6,7 +6,7 @@ export default async (req: Request, context: Context) => {
     return new Response(JSON.stringify({ error: "Méthode non autorisée" }), { status: 405 });
   }
 
-  const { userId, firstName, age, city, gender, practice, bio, waliName, waliContact } = await req.json();
+  const { userId, firstName, age, city, gender, practice, bio, waliName, waliContact, photoData } = await req.json();
 
   if (!userId || !firstName || !age || !city || !gender) {
     return new Response(
@@ -18,8 +18,8 @@ export default async (req: Request, context: Context) => {
   const db = getDatabase();
 
   const [profile] = await db.sql`
-    INSERT INTO profiles (user_id, first_name, age, city, gender, practice, bio, wali_name, wali_contact)
-    VALUES (${userId}, ${firstName}, ${age}, ${city}, ${gender}, ${practice || null}, ${bio || null}, ${waliName || null}, ${waliContact || null})
+    INSERT INTO profiles (user_id, first_name, age, city, gender, practice, bio, wali_name, wali_contact, photo_data)
+    VALUES (${userId}, ${firstName}, ${age}, ${city}, ${gender}, ${practice || null}, ${bio || null}, ${waliName || null}, ${waliContact || null}, ${photoData || null})
     ON CONFLICT (user_id)
     DO UPDATE SET
       first_name = EXCLUDED.first_name,
@@ -29,8 +29,9 @@ export default async (req: Request, context: Context) => {
       practice = EXCLUDED.practice,
       bio = EXCLUDED.bio,
       wali_name = EXCLUDED.wali_name,
-      wali_contact = EXCLUDED.wali_contact
-    RETURNING id, first_name, age, city, gender, practice, bio, wali_name, wali_contact
+      wali_contact = EXCLUDED.wali_contact,
+      photo_data = COALESCE(EXCLUDED.photo_data, profiles.photo_data)
+    RETURNING id, first_name, age, city, gender, practice, bio, wali_name, wali_contact, photo_data
   `;
 
   return new Response(JSON.stringify({ profile }), {
