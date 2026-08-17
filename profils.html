@@ -21,7 +21,18 @@
   .grid{display:flex; flex-direction:column; gap:14px;}
   .profile-card{
     background:var(--sand-100); border:1px solid var(--line); border-radius:5px; padding:18px 20px;
+    display:flex; gap:14px;
   }
+  .profile-photo{
+    width:64px; height:64px; border-radius:50%; object-fit:cover; flex-shrink:0;
+    border:1px solid var(--line); background:var(--sand-50);
+  }
+  .profile-photo-placeholder{
+    width:64px; height:64px; border-radius:50%; flex-shrink:0;
+    background:var(--line); display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif; font-size:1.3rem; color:var(--ink-600);
+  }
+  .profile-body{flex:1; min-width:0;}
   .profile-card .name{font-family:'Fraunces', serif; font-size:1.15rem; color:var(--teal-900);}
   .profile-card .meta{font-size:0.85rem; color:var(--ink-600); margin-top:3px;}
   .profile-card .bio{font-size:0.9rem; margin-top:10px; color:var(--ink-900);}
@@ -58,14 +69,19 @@
       }
       grid.innerHTML = profiles.map(p => `
         <div class="profile-card">
-          <div class="name">${escapeHtml(p.first_name)}, ${p.age} ans</div>
-          <div class="meta">${escapeHtml(p.city)}</div>
-          ${p.practice ? `<span class="tag">${practiceLabels[p.practice] || escapeHtml(p.practice)}</span>` : ''}
-          ${p.wali_name ? `<span class="tag">Wali ajouté</span>` : ''}
-          ${p.bio ? `<div class="bio">${escapeHtml(p.bio)}</div>` : ''}
-          <div style="display:flex; gap:8px; margin-top:12px;">
-            <button class="contact-btn" style="border:none; cursor:pointer; font-family:inherit;" onclick="sendIntention(${p.user_id})">Envoyer une intention</button>
-            <a class="contact-btn" href="/messagerie.html?to=${p.user_id}&name=${encodeURIComponent(p.first_name)}">Contacter</a>
+          ${p.photo_data
+            ? `<img class="profile-photo" src="${p.photo_data}" alt="${escapeHtml(p.first_name)}">`
+            : `<div class="profile-photo-placeholder">${escapeHtml(p.first_name.charAt(0).toUpperCase())}</div>`}
+          <div class="profile-body">
+            <div class="name">${escapeHtml(p.first_name)}, ${p.age} ans</div>
+            <div class="meta">${escapeHtml(p.city)}</div>
+            ${p.practice ? `<span class="tag">${practiceLabels[p.practice] || escapeHtml(p.practice)}</span>` : ''}
+            ${p.wali_name ? `<span class="tag">Wali ajouté</span>` : ''}
+            ${p.bio ? `<div class="bio">${escapeHtml(p.bio)}</div>` : ''}
+            <div style="display:flex; gap:8px; margin-top:12px;">
+              <button class="contact-btn" style="border:none; cursor:pointer; font-family:inherit;" onclick="sendIntention(${p.user_id})">Envoyer une intention</button>
+              <a class="contact-btn" href="/messagerie.html?to=${p.user_id}&name=${encodeURIComponent(p.first_name)}">Contacter</a>
+            </div>
           </div>
         </div>
       `).join('');
