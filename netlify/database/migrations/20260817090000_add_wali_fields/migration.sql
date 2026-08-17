@@ -1,0 +1,2 @@
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS wali_name TEXT;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS wali_contact TEXT;
