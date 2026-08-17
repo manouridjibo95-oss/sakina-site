@@ -65,6 +65,13 @@
         <label for="firstName">Prénom</label>
         <input type="text" id="firstName" required>
       </div>
+      <div>
+        <label for="photo">Photo de profil (facultatif)</label>
+        <input type="file" id="photo" accept="image/*">
+        <div id="photoPreviewWrap" style="margin-top:10px; display:none;">
+          <img id="photoPreview" style="width:90px; height:90px; border-radius:50%; object-fit:cover; border:1px solid var(--line);">
+        </div>
+      </div>
       <div class="row">
         <div>
           <label for="age">Âge</label>
@@ -124,6 +131,37 @@
 
   const msg = document.getElementById('msg');
   const submitBtn = document.getElementById('submitBtn');
+  const photoInput = document.getElementById('photo');
+  const photoPreview = document.getElementById('photoPreview');
+  const photoPreviewWrap = document.getElementById('photoPreviewWrap');
+  let photoData = null;
+
+  photoInput.addEventListener('change', () => {
+    const file = photoInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const maxSize = 400;
+        let w = img.width, h = img.height;
+        if (w > h && w > maxSize) { h = h * (maxSize / w); w = maxSize; }
+        else if (h > maxSize) { w = w * (maxSize / h); h = maxSize; }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        photoData = canvas.toDataURL('image/jpeg', 0.7);
+
+        photoPreview.src = photoData;
+        photoPreviewWrap.style.display = 'block';
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -148,6 +186,7 @@
           bio: document.getElementById('bio').value,
           waliName: document.getElementById('waliName').value,
           waliContact: document.getElementById('waliContact').value,
+          photoData: photoData,
         }),
       });
       const data = await res.json();
