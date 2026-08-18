@@ -73,7 +73,9 @@
             ? `<img class="profile-photo" src="${p.photo_data}" alt="${escapeHtml(p.first_name)}">`
             : `<div class="profile-photo-placeholder">${escapeHtml(p.first_name.charAt(0).toUpperCase())}</div>`}
           <div class="profile-body">
-            <div class="name">${escapeHtml(p.first_name)}, ${p.age} ans</div>
+            <a href="/voir-profil.html?id=${p.user_id}" style="text-decoration:none; color:inherit;">
+              <div class="name">${escapeHtml(p.first_name)}, ${p.age} ans</div>
+            </a>
             <div class="meta">${escapeHtml(p.city)}</div>
             ${p.practice ? `<span class="tag">${practiceLabels[p.practice] || escapeHtml(p.practice)}</span>` : ''}
             ${p.wali_name ? `<span class="tag">Wali ajouté</span>` : ''}
