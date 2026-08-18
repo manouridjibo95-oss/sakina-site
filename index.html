@@ -369,5 +369,34 @@
   </div>
 </footer>
 
+<script>
+  const homeUserJson = localStorage.getItem('sakina_user');
+  if (homeUserJson) {
+    const homeUser = JSON.parse(homeUserJson);
+    document.getElementById('homeDash').style.display = 'block';
+
+    fetch(`/api/get-intentions?userId=${homeUser.id}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('homeIntentionsReceived').textContent = (data.received || []).length;
+        document.getElementById('homeIntentionsSent').textContent = (data.sent || []).length;
+      })
+      .catch(() => {});
+
+    fetch(`/api/get-profile?userId=${homeUser.id}`)
+      .then(res => res.json())
+      .then(data => {
+        const profile = data.profile;
+        if (!profile) {
+          document.getElementById('homeCompletion').textContent = '0%';
+          return;
+        }
+        const fields = ['first_name', 'age', 'city', 'gender', 'bio', 'practice', 'wali_name'];
+        const filled = fields.filter(f => profile[f] !== null && profile[f] !== '' && profile[f] !== undefined).length;
+        document.getElementById('homeCompletion').textContent = Math.round((filled / fields.length) * 100) + '%';
+      })
+      .catch(() => {});
+  }
+</script>
 </body>
 </html>
