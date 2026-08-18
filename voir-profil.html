@@ -80,6 +80,14 @@
             <a class="btn btn-ghost" href="/messagerie.html?to=${profileId}&name=${encodeURIComponent(p.first_name)}">Contacter</a>
           </div>
         `;
+
+        const viewerJson = localStorage.getItem('sakina_user');
+        const viewerId = viewerJson ? JSON.parse(viewerJson).id : null;
+        fetch('/api/record-view', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ viewedUserId: profileId, viewerId }),
+        }).catch(() => {});
       })
       .catch(() => {
         content.innerHTML = '<div class="empty">Impossible de charger ce profil.</div>';
