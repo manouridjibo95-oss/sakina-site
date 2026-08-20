@@ -46,7 +46,10 @@
   @media (max-width:600px){ .home-dash .stats{grid-template-columns:1fr 1fr; gap:8px;} .home-dash .stat-card{padding:12px 8px;} .home-dash .stat-card .num{font-size:1.4rem;} .home-dash .stat-card .label{font-size:0.7rem;} }
 
   /* HERO */
-  .hero{position:relative; overflow:hidden; padding:88px 0 64px; background:var(--teal-900); color:var(--sand-100);}
+  .hero{
+    position:relative; overflow:hidden; padding:88px 0 64px; color:var(--sand-100);
+    background:linear-gradient(rgba(18,56,50,0.72), rgba(18,56,50,0.82)), url('/hero-banner.jpg') center/cover no-repeat;
+  }}
   .hero::before{
     content:''; position:absolute; right:-120px; top:-140px; width:520px; height:520px;
     background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><g fill="none" stroke="%23D9BD8E" stroke-width="0.6" opacity="0.5"><polygon points="100,10 122,70 185,70 133,108 153,170 100,132 47,170 67,108 15,70 78,70"/><circle cx="100" cy="100" r="90"/><circle cx="100" cy="100" r="60"/></g></svg>') no-repeat center/contain;
