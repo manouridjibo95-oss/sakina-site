@@ -23,7 +23,9 @@
     background:var(--sand-100); border:1px solid var(--line); border-radius:5px; padding:16px 18px;
     display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
   }
+  .card .name-link{text-decoration:none; color:inherit;}
   .card .name{font-family:'Fraunces', serif; font-size:1.05rem; color:var(--teal-900);}
+  .card .name-link:hover .name{text-decoration:underline;}
   .card .meta{font-size:0.82rem; color:var(--ink-600); margin-top:2px;}
   .actions{display:flex; gap:8px;}
   .btn{padding:7px 14px; border-radius:3px; font-size:0.82rem; font-weight:500; border:none; cursor:pointer; text-decoration:none;}
@@ -80,10 +82,10 @@
     }
     receivedGrid.innerHTML = list.map(i => `
       <div class="card">
-        <div>
+        <a class="name-link" href="/voir-profil.html?id=${i.user_id}">
           <div class="name">${escapeHtml(i.first_name)}${i.age ? `, ${i.age} ans` : ''}</div>
           ${i.city ? `<div class="meta">${escapeHtml(i.city)}</div>` : ''}
-        </div>
+        </a>
         ${i.status === 'pending' ? `
           <div class="actions">
             <button class="btn btn-accept" onclick="respond(${i.id}, 'accepted', ${user.id})">Accepter</button>
@@ -101,9 +103,35 @@
     }
     sentGrid.innerHTML = list.map(i => `
       <div class="card">
-        <div>
+        <a class="name-link" href="/voir-profil.html?id=${i.user_id}">
           <div class="name">${escapeHtml(i.first_name)}${i.age ? `, ${i.age} ans` : ''}</div>
           ${i.city ? `<div class="meta">${escapeHtml(i.city)}</div>` : ''}
+        </a>
+        <span class="status ${i.status}">${i.status === 'pending' ? 'En attente' : i.status === 'accepted' ? 'Acceptée' : 'Déclinée'}</span>
+      </div>
+    `).join('');
+  }
+
+  async function respond(intentionId, status, recipientId) {
+    try {
+      await fetch('/api/respond-intention', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ intentionId, recipientId, status }),
+      });
+      const user = JSON.parse(localStorage.getItem('sakina_user'));
+      load(user);
+    } catch (err) {}
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+</script>
+</body>
+</html>          ${i.city ? `<div class="meta">${escapeHtml(i.city)}</div>` : ''}
         </div>
         <span class="status ${i.status}">${i.status === 'pending' ? 'En attente' : i.status === 'accepted' ? 'Acceptée' : 'Déclinée'}</span>
       </div>
