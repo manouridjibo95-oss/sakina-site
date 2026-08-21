@@ -10,42 +10,70 @@
   :root{
     --teal-900:#123832; --teal-700:#1B4D3E;
     --sand-100:#F4EEE1; --sand-50:#FAF6ED;
-    --gold-500:#B8925A; --ink-900:#2B2621; --ink-600:#5A5248; --line:#DFD5BE;
+    --gold-500:#B8925A; --gold-300:#D9BD8E; --ink-900:#2B2621; --ink-600:#5A5248; --line:#DFD5BE;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
-  body{background:var(--sand-50); color:var(--ink-900); font-family:'Work Sans', sans-serif; padding:24px 16px 60px;}
-  .wrap{max-width:640px; margin:0 auto;}
-  h1{font-family:'Fraunces', serif; font-size:1.6rem; color:var(--teal-900); margin-bottom:6px;}
-  p.sub{color:var(--ink-600); font-size:0.9rem; margin-bottom:24px;}
-  .back{display:inline-block; margin-bottom:20px; font-size:0.85rem; color:var(--ink-600); text-decoration:none;}
-  .grid{display:flex; flex-direction:column; gap:14px;}
+  body{background:var(--sand-100); color:var(--ink-900); font-family:'Work Sans', sans-serif;}
+
+  .topbar{background:var(--teal-900); padding:20px 16px; color:var(--sand-50);}
+  .topbar-inner{max-width:720px; margin:0 auto;}
+  .back{display:inline-flex; align-items:center; gap:6px; font-size:0.82rem; color:#B9CBC3; text-decoration:none; margin-bottom:10px;}
+  .topbar h1{font-family:'Fraunces', serif; font-size:1.5rem; color:var(--sand-50);}
+  .topbar p{margin-top:4px; font-size:0.88rem; color:#C9D6CD;}
+
+  .wrap{max-width:720px; margin:0 auto; padding:24px 16px 60px;}
+  .grid{display:flex; flex-direction:column; gap:16px;}
   .profile-card{
-    background:var(--sand-100); border:1px solid var(--line); border-radius:5px; padding:18px 20px;
-    display:flex; gap:14px;
+    background:var(--sand-50); border:1px solid var(--line); border-radius:8px; padding:20px;
+    display:flex; gap:16px; box-shadow:0 4px 16px -8px rgba(18,56,50,0.15);
+    transition:box-shadow .2s, transform .2s;
   }
+  .profile-card:hover{box-shadow:0 8px 24px -8px rgba(18,56,50,0.25); transform:translateY(-1px);}
   .profile-photo{
-    width:64px; height:64px; border-radius:50%; object-fit:cover; flex-shrink:0;
-    border:1px solid var(--line); background:var(--sand-50);
+    width:72px; height:72px; border-radius:50%; object-fit:cover; flex-shrink:0;
+    border:2px solid var(--sand-100);
   }
   .profile-photo-placeholder{
-    width:64px; height:64px; border-radius:50%; flex-shrink:0;
-    background:var(--line); display:flex; align-items:center; justify-content:center;
-    font-family:'Fraunces', serif; font-size:1.3rem; color:var(--ink-600);
+    width:72px; height:72px; border-radius:50%; flex-shrink:0;
+    background:linear-gradient(135deg, var(--gold-300), var(--gold-500));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif; font-size:1.5rem; color:var(--sand-50); font-weight:500;
   }
   .profile-body{flex:1; min-width:0;}
-  .profile-card .name{font-family:'Fraunces', serif; font-size:1.15rem; color:var(--teal-900);}
-  .profile-card .meta{font-size:0.85rem; color:var(--ink-600); margin-top:3px;}
-  .profile-card .bio{font-size:0.9rem; margin-top:10px; color:var(--ink-900);}
-  .tag{display:inline-block; font-size:0.72rem; padding:3px 9px; border:1px solid var(--line); border-radius:20px; color:var(--ink-600); margin-top:8px;}
-  .contact-btn{display:inline-block; margin-top:12px; padding:8px 16px; background:var(--teal-700); color:var(--sand-50); border-radius:3px; font-size:0.85rem; text-decoration:none; font-weight:500;}
-  .empty{color:var(--ink-600); font-size:0.92rem; text-align:center; padding:40px 0;}
+  .name-link{text-decoration:none; color:inherit;}
+  .profile-card .name{font-family:'Fraunces', serif; font-size:1.2rem; color:var(--teal-900); transition:color .2s;}
+  .name-link:hover .name{color:var(--gold-500);}
+  .profile-card .meta{font-size:0.85rem; color:var(--ink-600); margin-top:2px; display:flex; align-items:center; gap:5px;}
+  .profile-card .bio{font-size:0.9rem; margin-top:10px; color:var(--ink-900); line-height:1.5;}
+  .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;}
+  .tag{font-size:0.72rem; padding:4px 11px; border:1px solid var(--line); border-radius:20px; color:var(--ink-600); background:var(--sand-100);}
+  .tag.wali{color:var(--teal-700); border-color:var(--teal-700); background:#E4EFE9; font-weight:500;}
+  .actions{display:flex; gap:8px; margin-top:16px; flex-wrap:wrap;}
+  .btn{padding:9px 16px; border-radius:20px; font-size:0.82rem; font-weight:500; text-decoration:none; border:none; cursor:pointer; font-family:inherit; transition:all .2s;}
+  .btn-primary{background:var(--teal-700); color:var(--sand-50);}
+  .btn-primary:hover{background:var(--teal-900);}
+  .btn-outline{background:transparent; border:1px solid var(--teal-700); color:var(--teal-700);}
+  .btn-outline:hover{background:var(--teal-700); color:var(--sand-50);}
+  .empty{color:var(--ink-600); font-size:0.92rem; text-align:center; padding:60px 20px; background:var(--sand-50); border-radius:8px; border:1px dashed var(--line);}
+
+  @media (max-width:480px){
+    .profile-card{flex-direction:column; text-align:center; align-items:center;}
+    .actions{justify-content:center;}
+    .tags{justify-content:center;}
+    .profile-card .meta{justify-content:center;}
+  }
 </style>
 </head>
 <body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a href="/" class="back">← Accueil</a>
+      <h1>Profils</h1>
+      <p>Découvrez les membres inscrits sur Sakina.</p>
+    </div>
+  </div>
+
   <div class="wrap">
-    <a href="/" class="back">← Retour à l'accueil</a>
-    <h1>Profils</h1>
-    <p class="sub">Découvrez les membres inscrits sur Sakina.</p>
     <div class="grid" id="grid">
       <div class="empty">Chargement…</div>
     </div>
@@ -64,7 +92,7 @@
     .then(data => {
       const profiles = data.profiles || [];
       if (profiles.length === 0) {
-        grid.innerHTML = '<div class="empty">Aucun profil pour le moment. Soyez le premier !</div>';
+        grid.innerHTML = '<div class="empty">Aucun profil pour le moment.<br>Soyez le premier à en créer un !</div>';
         return;
       }
       grid.innerHTML = profiles.map(p => `
@@ -73,16 +101,18 @@
             ? `<img class="profile-photo" src="${p.photo_data}" alt="${escapeHtml(p.first_name)}">`
             : `<div class="profile-photo-placeholder">${escapeHtml(p.first_name.charAt(0).toUpperCase())}</div>`}
           <div class="profile-body">
-            <a href="/voir-profil.html?id=${p.user_id}" style="text-decoration:none; color:inherit;">
+            <a href="/voir-profil.html?id=${p.user_id}" class="name-link">
               <div class="name">${escapeHtml(p.first_name)}, ${p.age} ans</div>
             </a>
-            <div class="meta">${escapeHtml(p.city)}</div>
-            ${p.practice ? `<span class="tag">${practiceLabels[p.practice] || escapeHtml(p.practice)}</span>` : ''}
-            ${p.wali_name ? `<span class="tag">Wali ajouté</span>` : ''}
+            <div class="meta">📍 ${escapeHtml(p.city)}</div>
+            <div class="tags">
+              ${p.practice ? `<span class="tag">${practiceLabels[p.practice] || escapeHtml(p.practice)}</span>` : ''}
+              ${p.wali_name ? `<span class="tag wali">✓ Wali ajouté</span>` : ''}
+            </div>
             ${p.bio ? `<div class="bio">${escapeHtml(p.bio)}</div>` : ''}
-            <div style="display:flex; gap:8px; margin-top:12px;">
-              <button class="contact-btn" style="border:none; cursor:pointer; font-family:inherit;" onclick="sendIntention(${p.user_id})">Envoyer une intention</button>
-              <a class="contact-btn" href="/messagerie.html?to=${p.user_id}&name=${encodeURIComponent(p.first_name)}">Contacter</a>
+            <div class="actions">
+              <button class="btn btn-primary" onclick="sendIntention(${p.user_id})">Envoyer une intention</button>
+              <a class="btn btn-outline" href="/messagerie.html?to=${p.user_id}&name=${encodeURIComponent(p.first_name)}">Contacter</a>
             </div>
           </div>
         </div>
