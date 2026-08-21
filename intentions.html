@@ -131,30 +131,4 @@
   }
 </script>
 </body>
-</html>          ${i.city ? `<div class="meta">${escapeHtml(i.city)}</div>` : ''}
-        </div>
-        <span class="status ${i.status}">${i.status === 'pending' ? 'En attente' : i.status === 'accepted' ? 'Acceptée' : 'Déclinée'}</span>
-      </div>
-    `).join('');
-  }
-
-  async function respond(intentionId, status, recipientId) {
-    try {
-      await fetch('/api/respond-intention', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ intentionId, recipientId, status }),
-      });
-      const user = JSON.parse(localStorage.getItem('sakina_user'));
-      load(user);
-    } catch (err) {}
-  }
-
-  function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
-</script>
-</body>
 </html>
