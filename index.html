@@ -190,7 +190,8 @@
       <a href="/intentions.html">Mes intentions</a>
     </div>
     <div class="nav-right">
-      <a href="/connexion.html" class="btn btn-ghost">Se connecter</a>
+      <a href="/connexion.html" class="btn btn-ghost" id="loginBtn">Se connecter</a>
+      <button class="btn btn-ghost" id="logoutBtn" style="display:none; cursor:pointer;" onclick="localStorage.removeItem('sakina_user'); window.location.href='/';">Se déconnecter</button>
       <a href="/profil.html" class="btn btn-primary">Créer mon profil</a>
     </div>
   </nav>
@@ -455,6 +456,8 @@
 <script>
   const homeUserJson = localStorage.getItem('sakina_user');
   if (homeUserJson) {
+    document.getElementById('loginBtn').style.display = 'none';
+    document.getElementById('logoutBtn').style.display = 'inline-block';
     const homeUser = JSON.parse(homeUserJson);
     document.getElementById('homeDash').style.display = 'block';
 
