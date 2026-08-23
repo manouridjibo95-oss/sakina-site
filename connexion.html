@@ -10,46 +10,57 @@
   :root{
     --teal-900:#123832; --teal-700:#1B4D3E;
     --sand-100:#F4EEE1; --sand-50:#FAF6ED;
-    --gold-500:#B8925A; --ink-900:#2B2621; --ink-600:#5A5248; --line:#DFD5BE;
+    --gold-500:#B8925A; --gold-300:#D9BD8E; --ink-900:#2B2621; --ink-600:#5A5248; --line:#DFD5BE;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{
-    background:var(--teal-900); color:var(--ink-900);
-    font-family:'Work Sans', sans-serif;
-    min-height:100vh; display:flex; align-items:center; justify-content:center;
-    padding:24px;
+    background:var(--teal-900); color:var(--ink-900); font-family:'Work Sans', sans-serif;
+    min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
+    position:relative; overflow:hidden;
+  }
+  body::before{
+    content:''; position:absolute; left:-140px; bottom:-160px; width:420px; height:420px;
+    background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><g fill="none" stroke="%23D9BD8E" stroke-width="0.6" opacity="0.35"><polygon points="100,10 122,70 185,70 133,108 153,170 100,132 47,170 67,108 15,70 78,70"/><circle cx="100" cy="100" r="90"/></g></svg>') no-repeat center/contain;
   }
   .card{
-    background:var(--sand-50); border-radius:6px; padding:44px 36px;
-    max-width:420px; width:100%; box-shadow:0 30px 60px -30px rgba(0,0,0,0.5);
+    background:var(--sand-50); border-radius:12px; padding:44px 36px;
+    max-width:420px; width:100%; box-shadow:0 30px 70px -20px rgba(0,0,0,0.5);
+    position:relative; z-index:2;
   }
-  .eyebrow{font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-500); font-weight:600; margin-bottom:10px;}
-  h1{font-family:'Fraunces', serif; font-size:1.7rem; color:var(--teal-900); font-weight:500;}
-  p.sub{margin-top:10px; color:var(--ink-600); font-size:0.92rem;}
+  .logo{display:flex; align-items:center; gap:8px; justify-content:center; margin-bottom:20px;}
+  .logo svg{width:24px; height:24px;}
+  .logo-text{font-family:'Fraunces', serif; font-size:1.15rem; color:var(--teal-900);}
+  .eyebrow{font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-500); font-weight:600; margin-bottom:10px; text-align:center;}
+  h1{font-family:'Fraunces', serif; font-size:1.7rem; color:var(--teal-900); font-weight:500; text-align:center;}
+  p.sub{margin-top:10px; color:var(--ink-600); font-size:0.9rem; text-align:center;}
   form{margin-top:28px; display:flex; flex-direction:column; gap:16px;}
   label{font-size:0.85rem; font-weight:500; color:var(--ink-900); display:block; margin-bottom:6px;}
   input{
-    width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:3px;
-    font-family:'Work Sans', sans-serif; font-size:0.95rem; background:#fff;
+    width:100%; padding:13px 15px; border:1px solid var(--line); border-radius:8px;
+    font-family:'Work Sans', sans-serif; font-size:0.95rem; background:#fff; transition:border-color .2s;
   }
-  input:focus{outline:2px solid var(--gold-500); outline-offset:1px; border-color:var(--gold-500);}
+  input:focus{outline:none; border-color:var(--gold-500); box-shadow:0 0 0 3px rgba(184,146,90,0.15);}
   button{
-    margin-top:8px; padding:13px; border:none; border-radius:3px;
-    background:var(--teal-700); color:var(--sand-50); font-weight:500; font-size:0.95rem;
+    margin-top:8px; padding:14px; border:none; border-radius:24px;
+    background:var(--teal-700); color:var(--sand-50); font-weight:600; font-size:0.95rem;
     cursor:pointer; transition:background .2s;
   }
   button:hover{background:var(--teal-900);}
   button:disabled{opacity:0.6; cursor:not-allowed;}
-  .msg{margin-top:16px; padding:12px 14px; border-radius:3px; font-size:0.88rem; display:none;}
+  .msg{margin-top:16px; padding:12px 14px; border-radius:8px; font-size:0.88rem; display:none;}
   .msg.error{background:#FBE8E4; color:#8A2E1E; display:block;}
   .msg.success{background:#E4EFE9; color:#1B4D3E; display:block;}
   .back{display:block; margin-top:22px; text-align:center; font-size:0.85rem; color:var(--ink-600); text-decoration:none;}
-  .switch{display:block; margin-top:8px; text-align:center; font-size:0.85rem; color:var(--teal-700); text-decoration:none; font-weight:500;}
+  .switch{display:block; margin-top:10px; text-align:center; font-size:0.85rem; color:var(--teal-700); text-decoration:none; font-weight:500;}
 </style>
 </head>
 <body>
   <div class="card">
-    <div class="eyebrow">Sakina</div>
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none"><polygon points="12,2 14.5,9.5 22,9.5 16,14 18,22 12,17 6,22 8,14 2,9.5 9.5,9.5" stroke="#B8925A" stroke-width="1.1"/></svg>
+      <span class="logo-text">Sakina</span>
+    </div>
+    <div class="eyebrow">Bon retour</div>
     <h1>Se connecter</h1>
     <p class="sub">Retrouvez votre recherche là où vous l'avez laissée.</p>
 
