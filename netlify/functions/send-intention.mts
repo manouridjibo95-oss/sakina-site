@@ -12,6 +12,13 @@ export default async (req: Request, context: Context) => {
     return new Response(JSON.stringify({ error: "Destinataire manquant" }), { status: 400 });
   }
 
+  if (String(senderId) === String(recipientId)) {
+    return new Response(
+      JSON.stringify({ error: "Vous ne pouvez pas vous envoyer une intention." }),
+      { status: 400 }
+    );
+  }
+
   const db = getDatabase();
 
   const existing = await db.sql`

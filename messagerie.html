@@ -1,127 +1,134 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<title>Messagerie — Sakina</title>
+<meta name="description" content="Échangez avec les membres de Sakina dans un cadre respectueux.">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Messagerie — Sakina</title>
+<meta name="theme-color" content="#123832">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='%23123832'/><g fill='none' stroke='%23B8925A' stroke-width='1.3'><rect x='6.2' y='6.2' width='11.6' height='11.6'/><rect x='6.2' y='6.2' width='11.6' height='11.6' transform='rotate(45 12 12)'/></g></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --teal-900:#123832; --teal-700:#1B4D3E;
-    --sand-100:#F4EEE1; --sand-50:#FAF6ED;
-    --gold-500:#B8925A; --ink-900:#2B2621; --ink-600:#5A5248; --line:#DFD5BE;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  body{background:var(--sand-50); color:var(--ink-900); font-family:'Work Sans', sans-serif; min-height:100vh; display:flex; flex-direction:column;}
-  header{background:var(--teal-900); color:var(--sand-50); padding:16px 20px;}
-  header .back{color:#B9CBC3; text-decoration:none; font-size:0.82rem;}
-  header h1{font-family:'Fraunces', serif; font-size:1.2rem; margin-top:4px;}
-  .thread{flex:1; overflow-y:auto; padding:18px 16px; display:flex; flex-direction:column; gap:10px;}
-  .bubble{max-width:75%; padding:10px 14px; border-radius:10px; font-size:0.92rem; line-height:1.4;}
-  .bubble.mine{align-self:flex-end; background:var(--teal-700); color:var(--sand-50); border-bottom-right-radius:2px;}
-  .bubble.theirs{align-self:flex-start; background:var(--sand-100); border:1px solid var(--line); border-bottom-left-radius:2px;}
-  .empty{color:var(--ink-600); text-align:center; padding:40px 0; font-size:0.9rem;}
-  form{display:flex; gap:8px; padding:14px 16px; border-top:1px solid var(--line); background:var(--sand-50);}
-  input{flex:1; padding:11px 13px; border:1px solid var(--line); border-radius:20px; font-family:'Work Sans', sans-serif; font-size:0.92rem;}
-  input:focus{outline:2px solid var(--gold-500); outline-offset:1px; border-color:var(--gold-500);}
-  button{padding:0 20px; border:none; border-radius:20px; background:var(--teal-700); color:var(--sand-50); font-weight:500; font-size:0.9rem; cursor:pointer;}
-  button:disabled{opacity:0.6;}
-  .signin-notice{margin:30px 20px; background:#FBE8E4; color:#8A2E1E; padding:14px; border-radius:3px; font-size:0.9rem;}
-  .signin-notice a{color:#8A2E1E; font-weight:600;}
-</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sakina.css">
+<script>document.documentElement.dataset.auth=(function(){try{return localStorage.getItem('sakina_user')?'member':'guest';}catch(e){return 'guest';}})();</script>
 </head>
-<body>
-  <header>
-    <a href="/profils.html" class="back">← Profils</a>
-    <h1 id="threadTitle">Conversation</h1>
+<body class="thread-page">
+  <header class="thread-head">
+    <div class="shell">
+      <a class="thread-back" href="/profils.html" aria-label="Retour aux profils">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
+      </a>
+      <div class="thread-peer">
+        <div class="who" id="threadTitle">Conversation</div>
+        <div class="sub">Échange en vue du mariage</div>
+      </div>
+    </div>
   </header>
 
-  <div id="authNotice" class="signin-notice" style="display:none;">
+  <div id="authNotice" class="notice" style="display:none; margin:28px 20px;">
     Vous devez d'abord <a href="/connexion.html">vous connecter</a>.
   </div>
 
-  <div class="thread" id="thread" style="display:none;">
-    <div class="empty">Chargement…</div>
+  <div class="thread" id="thread" style="display:none;" aria-live="polite"></div>
+
+  <div class="thread-compose" id="composeWrap" style="display:none;">
+    <form id="messageForm">
+      <label class="visually-hidden" for="content">Votre message</label>
+      <input type="text" id="content" placeholder="Écrire un message…" required autocomplete="off" maxlength="1000">
+      <button type="submit" class="btn btn-primary" id="sendBtn">Envoyer</button>
+    </form>
   </div>
 
-  <form id="messageForm" style="display:none;">
-    <input type="text" id="content" placeholder="Écrire un message…" required autocomplete="off">
-    <button type="submit" id="sendBtn">Envoyer</button>
-  </form>
-
+<script src="/assets/sakina.js"></script>
 <script>
-  const params = new URLSearchParams(window.location.search);
-  const toId = params.get('to');
-  const toName = params.get('name') || 'ce membre';
+  var params = new URLSearchParams(window.location.search);
+  var toId = params.get('to');
+  var toName = params.get('name') || 'ce membre';
   document.getElementById('threadTitle').textContent = 'Conversation avec ' + toName;
 
-  const userJson = localStorage.getItem('sakina_user');
-  const authNotice = document.getElementById('authNotice');
-  const threadEl = document.getElementById('thread');
-  const form = document.getElementById('messageForm');
-  const contentInput = document.getElementById('content');
-  const sendBtn = document.getElementById('sendBtn');
+  var user = Sakina.currentUser();
+  var authNotice = document.getElementById('authNotice');
+  var threadEl = document.getElementById('thread');
+  var composeWrap = document.getElementById('composeWrap');
+  var form = document.getElementById('messageForm');
+  var contentInput = document.getElementById('content');
+  var sendBtn = document.getElementById('sendBtn');
 
-  if (!userJson || !toId) {
+  if (!user || !toId) {
     authNotice.style.display = 'block';
-    authNotice.textContent = !toId
-      ? "Choisissez d'abord un profil à contacter."
-      : authNotice.textContent;
+    if (!toId) {
+      authNotice.textContent = "Choisissez d'abord un profil à contacter.";
+    }
   } else {
     threadEl.style.display = 'flex';
-    form.style.display = 'flex';
+    composeWrap.style.display = 'block';
+    threadEl.innerHTML =
+      '<div class="bubble theirs skeleton" style="width:56%;height:38px;" aria-hidden="true"></div>' +
+      '<div class="bubble mine skeleton" style="width:42%;height:38px;" aria-hidden="true"></div>' +
+      '<div class="bubble theirs skeleton" style="width:64%;height:38px;" aria-hidden="true"></div>';
     loadMessages();
   }
 
-  const user = userJson ? JSON.parse(userJson) : null;
+  function emptyThread() {
+    return '<div class="empty" style="margin:auto; border:none; background:transparent;">' +
+      Sakina.icon('mail', 44).replace('<svg', '<svg class="empty-mark"') +
+      '<h3>La conversation commence ici</h3>' +
+      '<p>Un premier mot sobre et sincère vaut mieux qu’un long message.</p></div>';
+  }
 
   async function loadMessages() {
     try {
-      const res = await fetch(`/api/get-messages?userId=${user.id}&withId=${toId}`);
+      const res = await fetch('/api/get-messages?userId=' + user.id + '&withId=' + toId);
       const data = await res.json();
-      const messages = data.messages || [];
+      var messages = data.messages || [];
+
       if (messages.length === 0) {
-        threadEl.innerHTML = '<div class="empty">Aucun message pour le moment. Dites bonjour !</div>';
+        threadEl.innerHTML = emptyThread();
         return;
       }
-      threadEl.innerHTML = messages.map(m => `
-        <div class="bubble ${m.sender_id == user.id ? 'mine' : 'theirs'}">${escapeHtml(m.content)}</div>
-      `).join('');
+
+      threadEl.innerHTML = messages.map(function (m) {
+        var mine = String(m.sender_id) === String(user.id);
+        return '<div class="bubble ' + (mine ? 'mine' : 'theirs') + '">' +
+          Sakina.escapeHtml(m.content) + '</div>';
+      }).join('');
       threadEl.scrollTop = threadEl.scrollHeight;
     } catch (err) {
-      threadEl.innerHTML = '<div class="empty">Impossible de charger la conversation.</div>';
+      threadEl.innerHTML = '<div class="empty" style="margin:auto; border:none; background:transparent;">' +
+        Sakina.icon('alert', 44).replace('<svg', '<svg class="empty-mark"') +
+        '<p>Impossible de charger la conversation.</p></div>';
     }
   }
 
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', async function (e) {
     e.preventDefault();
-    const content = contentInput.value.trim();
+    var content = contentInput.value.trim();
     if (!content) return;
+
     sendBtn.disabled = true;
+    sendBtn.textContent = 'Envoi…';
 
     try {
       const res = await fetch('/api/send-message', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ senderId: user.id, recipientId: toId, content }),
+        body: JSON.stringify({ senderId: user.id, recipientId: toId, content: content }),
       });
       if (res.ok) {
         contentInput.value = '';
         await loadMessages();
+      } else {
+        Sakina.toast("Le message n'a pas pu être envoyé.", 'error');
       }
     } catch (err) {
-      // silent fail, user can retry
-    } finally {
-      sendBtn.disabled = false;
+      Sakina.toast('Impossible de contacter le serveur.', 'error');
     }
-  });
 
-  function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
+    sendBtn.disabled = false;
+    sendBtn.textContent = 'Envoyer';
+    contentInput.focus();
+  });
 </script>
 </body>
 </html>

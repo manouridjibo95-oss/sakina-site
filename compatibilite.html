@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<title>Affinités — Sakina</title>
+<meta name="description" content="Renseignez vos affinités sur Sakina : pratique, projet de mariage, cadre de vie. Un accord de fond, mesuré sur cinq axes.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#123832">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='%23123832'/><g fill='none' stroke='%23B8925A' stroke-width='1.3'><rect x='6.2' y='6.2' width='11.6' height='11.6'/><rect x='6.2' y='6.2' width='11.6' height='11.6' transform='rotate(45 12 12)'/></g></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sakina.css">
+<script>document.documentElement.dataset.auth=(function(){try{return localStorage.getItem('sakina_user')?'member':'guest';}catch(e){return 'guest';}})();</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="shell nav">
+    <a class="brand" href="/">
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="5.6" y="5.6" width="12.8" height="12.8"/><rect x="5.6" y="5.6" width="12.8" height="12.8" transform="rotate(45 12 12)"/></svg>
+      <span class="brand-name">Sakina</span>
+    </a>
+    <div class="nav-panel" data-nav-panel>
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="/profils.html">Profils</a>
+        <a href="/compatibilite.html" data-auth="member">Affinités</a>
+        <a href="/intentions.html">Intentions</a>
+        <a href="/tableau-de-bord.html">Tableau de bord</a>
+        <a href="/#tarifs">Tarifs</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn btn-quiet" href="/connexion.html" data-auth="guest">Se connecter</a>
+        <a class="btn btn-primary" href="/inscription.html" data-auth="guest">Créer mon compte</a>
+        <a class="btn btn-quiet" href="/profil.html" data-auth="member">Mon profil</a>
+        <button class="btn btn-ghost" type="button" data-logout data-auth="member">Se déconnecter</button>
+      </div>
+    </div>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Ouvrir le menu"><span></span></button>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="shell">
+    <h1>Vos affinités</h1>
+    <p>Cinq axes, six questions. Ils servent à mesurer l'accord de fond entre deux profils — la pratique, le projet, le cadre de vie. Vos réponses ne sont jamais affichées telles quelles : seul le degré de proximité l'est.</p>
+  </div>
+</section>
+
+<main class="shell shell-narrow page-body" style="max-width:660px;">
+  <div id="authNotice" class="notice" style="display:none;">
+    Vous devez d'abord <a href="/connexion.html">vous connecter</a> ou <a href="/inscription.html">créer un compte</a>.
+  </div>
+
+  <div id="loading" class="panel panel-pad" style="display:none;">
+    <div class="skeleton sk-line" style="width:44%;"></div>
+    <div class="skeleton sk-line" style="width:100%; margin-top:18px;"></div>
+    <div class="skeleton sk-line" style="width:100%;"></div>
+    <div class="skeleton sk-line" style="width:72%;"></div>
+    <span class="visually-hidden">Chargement du questionnaire…</span>
+  </div>
+
+  <div id="errorState" style="display:none;"></div>
+
+  <div id="quiz" style="display:none;">
+    <div class="q-progress">
+      <div class="top">
+        <span class="lab">Progression</span>
+        <span class="cnt" id="progressCount">0 / 6</span>
+      </div>
+      <div class="compat-meter"><i id="progressBar"></i></div>
+    </div>
+
+    <form id="compatForm" class="panel panel-pad" novalidate>
+      <div id="questions"></div>
+
+      <div class="q-block">
+        <header>
+          <h3 id="niyyahLabel">Votre niyyah</h3>
+          <p id="niyyahHint"></p>
+        </header>
+        <textarea id="niyyah" maxlength="400" rows="4"
+          placeholder="Ce qui vous pousse à entamer cette démarche, en quelques phrases…"></textarea>
+        <p class="hint" style="margin-top:7px;"><span id="niyyahCount">0</span> / 400</p>
+      </div>
+
+      <button type="submit" id="saveBtn" class="btn btn-primary btn-block" style="margin-top:26px;">
+        Enregistrer mes affinités
+      </button>
+      <div class="msg" id="msg" role="alert"></div>
+    </form>
+
+    <p class="hint" style="text-align:center; margin-top:18px;">
+      Les affinités complètent votre profil — elles ne le remplacent pas.
+      <a href="/profil.html">Revenir à mon profil</a>
+    </p>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <a class="brand" href="/">
+          <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="5.6" y="5.6" width="12.8" height="12.8"/><rect x="5.6" y="5.6" width="12.8" height="12.8" transform="rotate(45 12 12)"/></svg>
+          <span class="brand-name">Sakina</span>
+        </a>
+        <p class="footer-blurb">Une mise en relation en vue du mariage, pensée pour la pudeur, la clarté des intentions et la place du wali.</p>
+      </div>
+      <div class="footer-col">
+        <h4>La plateforme</h4>
+        <a href="/profils.html">Parcourir les profils</a>
+        <a href="/profil.html">Mon profil</a>
+        <a href="/compatibilite.html">Mes affinités</a>
+        <a href="/intentions.html">Mes intentions</a>
+        <a href="/tableau-de-bord.html">Tableau de bord</a>
+      </div>
+      <div class="footer-col">
+        <h4>En savoir plus</h4>
+        <a href="/#pourquoi">Pourquoi Sakina</a>
+        <a href="/#comment">Comment ça marche</a>
+        <a href="/#tarifs">Tarifs</a>
+        <a href="/#faq">Questions fréquentes</a>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>Sakina — mise en relation pour le mariage en islam</span>
+      <span>© 2026 Sakina</span>
+    </div>
+  </div>
+</footer>
+<script src="/assets/sakina.js"></script>
+<script>
+  var user = Sakina.currentUser();
+  var authNotice = document.getElementById('authNotice');
+  var loading = document.getElementById('loading');
+  var errorState = document.getElementById('errorState');
+  var quiz = document.getElementById('quiz');
+  var questionsEl = document.getElementById('questions');
+  var form = document.getElementById('compatForm');
+  var msg = document.getElementById('msg');
+  var saveBtn = document.getElementById('saveBtn');
+  var niyyah = document.getElementById('niyyah');
+  var niyyahCount = document.getElementById('niyyahCount');
+  var progressBar = document.getElementById('progressBar');
+  var progressCount = document.getElementById('progressCount');
+
+  var totalQuestions = 0;
+
+  if (!user) {
+    authNotice.style.display = 'block';
+  } else {
+    load();
+  }
+
+  function load() {
+    loading.style.display = 'block';
+    errorState.style.display = 'none';
+    fetch('/api/get-compatibility?userId=' + encodeURIComponent(user.id))
+      .then(function (r) {
+        if (!r.ok) throw new Error('http');
+        return r.json();
+      })
+      .then(function (data) {
+        loading.style.display = 'none';
+        render(data);
+        quiz.style.display = 'block';
+      })
+      .catch(function () {
+        loading.style.display = 'none';
+        showError();
+      });
+  }
+
+  function showError() {
+    errorState.style.display = 'block';
+    errorState.innerHTML =
+      '<div class="empty">' +
+        Sakina.icon('alert', 44).replace('<svg', '<svg class="empty-mark"') +
+        '<h3>Questionnaire indisponible</h3>' +
+        '<p>Nous n\'avons pas pu charger vos affinités. Cela vient sûrement de la connexion.</p>' +
+        '<button class="btn btn-primary btn-sm" type="button" id="retryBtn">Réessayer</button>' +
+      '</div>';
+    document.getElementById('retryBtn').addEventListener('click', load);
+  }
+
+  function render(data) {
+    var answers = data.answers || {};
+    var html = '';
+    totalQuestions = 0;
+
+    data.dimensions.forEach(function (dim) {
+      html += '<div class="q-block">' +
+        '<header>' +
+          '<h3>' + Sakina.escapeHtml(dim.label) +
+            '<span class="q-weight">poids ' + dim.weight + '</span>' +
+          '</h3>' +
+          '<p>' + Sakina.escapeHtml(dim.hint) + '</p>' +
+        '</header>';
+
+      dim.questions.forEach(function (q) {
+        totalQuestions++;
+        html += '<div class="q-item"><p>' + Sakina.escapeHtml(q.label) + '</p><div class="q-options">';
+        q.options.forEach(function (opt) {
+          var checked = answers[q.key] === opt.value ? ' checked' : '';
+          html += '<label class="q-opt">' +
+            '<input type="radio" name="' + q.key + '" value="' + Sakina.escapeHtml(opt.value) + '"' + checked + '>' +
+            '<span>' + Sakina.escapeHtml(opt.label) + '</span>' +
+          '</label>';
+        });
+        html += '</div></div>';
+      });
+
+      html += '</div>';
+    });
+
+    questionsEl.innerHTML = html;
+
+    document.getElementById('niyyahLabel').textContent = data.niyyahField.label;
+    document.getElementById('niyyahHint').textContent = data.niyyahField.hint;
+    niyyah.maxLength = data.niyyahField.maxLength;
+    if (answers.niyyah) niyyah.value = answers.niyyah;
+
+    form.addEventListener('change', updateProgress);
+    niyyah.addEventListener('input', updateCount);
+    updateCount();
+    updateProgress();
+  }
+
+  function updateCount() {
+    niyyahCount.textContent = niyyah.value.length;
+  }
+
+  function updateProgress() {
+    var done = new Set();
+    form.querySelectorAll('input[type=radio]:checked').forEach(function (el) { done.add(el.name); });
+    var pct = totalQuestions ? Math.round((done.size / totalQuestions) * 100) : 0;
+    progressBar.style.width = pct + '%';
+    progressCount.textContent = done.size + ' / ' + totalQuestions;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var payload = { userId: user.id, niyyah: niyyah.value };
+    form.querySelectorAll('input[type=radio]:checked').forEach(function (el) {
+      payload[el.name] = el.value;
+    });
+
+    msg.className = 'msg';
+    msg.textContent = '';
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Enregistrement…';
+
+    fetch('/api/save-compatibility', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+      .then(function (res) {
+        if (!res.ok) {
+          msg.className = 'msg error';
+          msg.textContent = res.data.error || "Une erreur s'est produite.";
+        } else {
+          msg.className = 'msg success';
+          msg.textContent = 'Affinités enregistrées.';
+          Sakina.toast('Affinités enregistrées.');
+        }
+      })
+      .catch(function () {
+        msg.className = 'msg error';
+        msg.textContent = 'Impossible de contacter le serveur. Réessayez.';
+      })
+      .then(function () {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Enregistrer mes affinités';
+      });
+  });
+</script>
+</body>
+</html>

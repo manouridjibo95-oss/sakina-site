@@ -1,133 +1,201 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<title>Mes intentions — Sakina</title>
+<meta name="description" content="Suivez les intentions que vous avez reçues et envoyées sur Sakina.">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Intentions — Sakina</title>
+<meta name="theme-color" content="#123832">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='%23123832'/><g fill='none' stroke='%23B8925A' stroke-width='1.3'><rect x='6.2' y='6.2' width='11.6' height='11.6'/><rect x='6.2' y='6.2' width='11.6' height='11.6' transform='rotate(45 12 12)'/></g></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --teal-900:#123832; --teal-700:#1B4D3E;
-    --sand-100:#F4EEE1; --sand-50:#FAF6ED;
-    --gold-500:#B8925A; --ink-900:#2B2621; --ink-600:#5A5248; --line:#DFD5BE;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  body{background:var(--sand-50); color:var(--ink-900); font-family:'Work Sans', sans-serif; padding:24px 16px 60px;}
-  .wrap{max-width:640px; margin:0 auto;}
-  h1{font-family:'Fraunces', serif; font-size:1.6rem; color:var(--teal-900); margin-bottom:6px;}
-  .back{display:inline-block; margin-bottom:20px; font-size:0.85rem; color:var(--ink-600); text-decoration:none;}
-  h2{font-family:'Fraunces', serif; font-size:1.1rem; color:var(--teal-900); margin:28px 0 12px;}
-  .grid{display:flex; flex-direction:column; gap:12px;}
-  .card{
-    background:var(--sand-100); border:1px solid var(--line); border-radius:5px; padding:16px 18px;
-    display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
-  }
-  .card .name-link{text-decoration:none; color:inherit;}
-  .card .name{font-family:'Fraunces', serif; font-size:1.05rem; color:var(--teal-900);}
-  .card .name-link:hover .name{text-decoration:underline;}
-  .card .meta{font-size:0.82rem; color:var(--ink-600); margin-top:2px;}
-  .actions{display:flex; gap:8px;}
-  .btn{padding:7px 14px; border-radius:3px; font-size:0.82rem; font-weight:500; border:none; cursor:pointer; text-decoration:none;}
-  .btn-accept{background:var(--teal-700); color:var(--sand-50);}
-  .btn-decline{background:transparent; border:1px solid var(--line); color:var(--ink-600);}
-  .status{font-size:0.78rem; padding:4px 10px; border-radius:20px; font-weight:500;}
-  .status.pending{background:#F0E6D2; color:var(--gold-500);}
-  .status.accepted{background:#E4EFE9; color:var(--teal-700);}
-  .status.declined{background:#EFE6E2; color:var(--ink-600);}
-  .empty{color:var(--ink-600); font-size:0.9rem; text-align:center; padding:20px 0;}
-</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sakina.css">
+<script>document.documentElement.dataset.auth=(function(){try{return localStorage.getItem('sakina_user')?'member':'guest';}catch(e){return 'guest';}})();</script>
 </head>
 <body>
-  <div class="wrap">
-    <a href="/profils.html" class="back">← Profils</a>
+<header class="site-header">
+  <div class="shell nav">
+    <a class="brand" href="/">
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="5.6" y="5.6" width="12.8" height="12.8"/><rect x="5.6" y="5.6" width="12.8" height="12.8" transform="rotate(45 12 12)"/></svg>
+      <span class="brand-name">Sakina</span>
+    </a>
+    <div class="nav-panel" data-nav-panel>
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="/profils.html">Profils</a>
+        <a href="/compatibilite.html" data-auth="member">Affinités</a>
+        <a href="/intentions.html">Intentions</a>
+        <a href="/tableau-de-bord.html">Tableau de bord</a>
+        <a href="/#tarifs">Tarifs</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn btn-quiet" href="/connexion.html" data-auth="guest">Se connecter</a>
+        <a class="btn btn-primary" href="/inscription.html" data-auth="guest">Créer mon compte</a>
+        <a class="btn btn-quiet" href="/profil.html" data-auth="member">Mon profil</a>
+        <button class="btn btn-ghost" type="button" data-logout data-auth="member">Se déconnecter</button>
+      </div>
+    </div>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Ouvrir le menu"><span></span></button>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="shell">
     <h1>Mes intentions</h1>
+    <p>Les marques d'intérêt sérieux que vous avez reçues et envoyées.</p>
+  </div>
+</section>
 
-    <h2>Reçues</h2>
-    <div class="grid" id="receivedGrid"><div class="empty">Chargement…</div></div>
-
-    <h2>Envoyées</h2>
-    <div class="grid" id="sentGrid"><div class="empty">Chargement…</div></div>
+<main class="shell shell-narrow page-body">
+  <div id="authNotice" class="notice" style="display:none;">
+    Vous devez d'abord <a href="/connexion.html">vous connecter</a> pour consulter vos intentions.
   </div>
 
-<script>
-  const userJson = localStorage.getItem('sakina_user');
-  const receivedGrid = document.getElementById('receivedGrid');
-  const sentGrid = document.getElementById('sentGrid');
+  <div id="panels">
+    <section class="intent-group">
+      <h2>Reçues <span class="intent-count" id="receivedCount">–</span></h2>
+      <div class="intent-list" id="receivedGrid" aria-live="polite"></div>
+    </section>
 
-  if (!userJson) {
-    receivedGrid.innerHTML = '<div class="empty">Connectez-vous pour voir vos intentions.</div>';
-    sentGrid.innerHTML = '';
-  } else {
-    const user = JSON.parse(userJson);
-    load(user);
+    <section class="intent-group">
+      <h2>Envoyées <span class="intent-count" id="sentCount">–</span></h2>
+      <div class="intent-list" id="sentGrid" aria-live="polite"></div>
+    </section>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <a class="brand" href="/">
+          <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="5.6" y="5.6" width="12.8" height="12.8"/><rect x="5.6" y="5.6" width="12.8" height="12.8" transform="rotate(45 12 12)"/></svg>
+          <span class="brand-name">Sakina</span>
+        </a>
+        <p class="footer-blurb">Une mise en relation en vue du mariage, pensée pour la pudeur, la clarté des intentions et la place du wali.</p>
+      </div>
+      <div class="footer-col">
+        <h4>La plateforme</h4>
+        <a href="/profils.html">Parcourir les profils</a>
+        <a href="/profil.html">Mon profil</a>
+        <a href="/compatibilite.html">Mes affinités</a>
+        <a href="/intentions.html">Mes intentions</a>
+        <a href="/tableau-de-bord.html">Tableau de bord</a>
+      </div>
+      <div class="footer-col">
+        <h4>En savoir plus</h4>
+        <a href="/#pourquoi">Pourquoi Sakina</a>
+        <a href="/#comment">Comment ça marche</a>
+        <a href="/#tarifs">Tarifs</a>
+        <a href="/#faq">Questions fréquentes</a>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>Sakina — mise en relation pour le mariage en islam</span>
+      <span>© 2026 Sakina</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/sakina.js"></script>
+<script>
+  var receivedGrid = document.getElementById('receivedGrid');
+  var sentGrid = document.getElementById('sentGrid');
+  var user = Sakina.currentUser();
+
+  function skeletons(n) {
+    var out = '';
+    for (var i = 0; i < n; i++) {
+      out += '<div class="intent-card" aria-hidden="true">' +
+        '<div style="flex:1;"><div class="skeleton sk-line" style="width:38%;height:14px;"></div>' +
+        '<div class="skeleton sk-line" style="width:22%;margin-top:9px;"></div></div>' +
+        '<div class="skeleton sk-line" style="width:92px;height:28px;border-radius:999px;"></div>' +
+      '</div>';
+    }
+    return out;
   }
 
-  async function load(user) {
+  function emptyState(text) {
+    return '<div class="empty">' +
+      Sakina.icon('heart', 44).replace('<svg', '<svg class="empty-mark"') +
+      '<p>' + text + '</p></div>';
+  }
+
+  if (!user) {
+    document.getElementById('authNotice').style.display = 'block';
+    document.getElementById('panels').style.display = 'none';
+  } else {
+    receivedGrid.innerHTML = skeletons(2);
+    sentGrid.innerHTML = skeletons(2);
+    load();
+  }
+
+  async function load() {
     try {
-      const res = await fetch(`/api/get-intentions?userId=${user.id}`);
+      const res = await fetch('/api/get-intentions?userId=' + user.id);
       const data = await res.json();
-      renderReceived(data.received || [], user);
+      renderReceived(data.received || []);
       renderSent(data.sent || []);
     } catch (err) {
-      receivedGrid.innerHTML = '<div class="empty">Impossible de charger.</div>';
+      receivedGrid.innerHTML = emptyState('Chargement impossible. Réessayez dans un instant.');
       sentGrid.innerHTML = '';
+      document.getElementById('receivedCount').textContent = '–';
+      document.getElementById('sentCount').textContent = '–';
     }
   }
 
-  function renderReceived(list, user) {
+  function identity(i) {
+    var esc = Sakina.escapeHtml;
+    return '<a class="name-link" href="/voir-profil.html?id=' + i.user_id + '" style="text-decoration:none;">' +
+      '<span class="profile-name">' + esc(i.first_name) + (i.age ? ', ' + i.age + ' ans' : '') + '</span>' +
+      (i.city ? '<div class="profile-meta">' + Sakina.icon('pin', 13) + esc(i.city) + '</div>' : '') +
+    '</a>';
+  }
+
+  function renderReceived(list) {
+    document.getElementById('receivedCount').textContent = list.length;
     if (list.length === 0) {
-      receivedGrid.innerHTML = '<div class="empty">Aucune intention reçue pour le moment.</div>';
+      receivedGrid.innerHTML = emptyState('Aucune intention reçue pour le moment. Complétez votre profil pour gagner en visibilité.');
       return;
     }
-    receivedGrid.innerHTML = list.map(i => `
-      <div class="card">
-        <a class="name-link" href="/voir-profil.html?id=${i.user_id}">
-          <div class="name">${escapeHtml(i.first_name)}${i.age ? `, ${i.age} ans` : ''}</div>
-          ${i.city ? `<div class="meta">${escapeHtml(i.city)}</div>` : ''}
-        </a>
-        ${i.status === 'pending' ? `
-          <div class="actions">
-            <button class="btn btn-accept" onclick="respond(${i.id}, 'accepted', ${user.id})">Accepter</button>
-            <button class="btn btn-decline" onclick="respond(${i.id}, 'declined', ${user.id})">Décliner</button>
-          </div>
-        ` : `<span class="status ${i.status}">${i.status === 'accepted' ? 'Acceptée' : 'Déclinée'}</span>`}
-      </div>
-    `).join('');
+    receivedGrid.innerHTML = list.map(function (i) {
+      var tail = i.status === 'pending'
+        ? '<div class="intent-actions">' +
+            '<button class="btn btn-primary btn-sm" type="button" onclick="respond(' + i.id + ', \'accepted\', this)">Accepter</button>' +
+            '<button class="btn btn-ghost btn-sm" type="button" onclick="respond(' + i.id + ', \'declined\', this)">Décliner</button>' +
+          '</div>'
+        : '<span class="status ' + i.status + '">' + (i.status === 'accepted' ? 'Acceptée' : 'Déclinée') + '</span>';
+      return '<article class="intent-card">' + identity(i) + tail + '</article>';
+    }).join('');
   }
 
   function renderSent(list) {
+    document.getElementById('sentCount').textContent = list.length;
     if (list.length === 0) {
-      sentGrid.innerHTML = '<div class="empty">Aucune intention envoyée pour le moment.</div>';
+      sentGrid.innerHTML = emptyState('Aucune intention envoyée pour le moment. <a href="/profils.html" style="color:var(--teal-700);font-weight:700;">Parcourez les profils</a> pour commencer.');
       return;
     }
-    sentGrid.innerHTML = list.map(i => `
-      <div class="card">
-        <a class="name-link" href="/voir-profil.html?id=${i.user_id}">
-          <div class="name">${escapeHtml(i.first_name)}${i.age ? `, ${i.age} ans` : ''}</div>
-          ${i.city ? `<div class="meta">${escapeHtml(i.city)}</div>` : ''}
-        </a>
-        <span class="status ${i.status}">${i.status === 'pending' ? 'En attente' : i.status === 'accepted' ? 'Acceptée' : 'Déclinée'}</span>
-      </div>
-    `).join('');
+    sentGrid.innerHTML = list.map(function (i) {
+      var label = i.status === 'pending' ? 'En attente' : (i.status === 'accepted' ? 'Acceptée' : 'Déclinée');
+      return '<article class="intent-card">' + identity(i) +
+        '<span class="status ' + i.status + '">' + label + '</span></article>';
+    }).join('');
   }
 
-  async function respond(intentionId, status, recipientId) {
+  async function respond(intentionId, status, btn) {
+    var row = btn.closest('.intent-card');
+    row.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
     try {
       await fetch('/api/respond-intention', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ intentionId, recipientId, status }),
+        body: JSON.stringify({ intentionId: intentionId, recipientId: user.id, status: status }),
       });
-      const user = JSON.parse(localStorage.getItem('sakina_user'));
-      load(user);
-    } catch (err) {}
-  }
-
-  function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
+      Sakina.toast(status === 'accepted' ? 'Intention acceptée.' : 'Intention déclinée.');
+      await load();
+    } catch (err) {
+      Sakina.toast('La réponse n’a pas pu être enregistrée.', 'error');
+      row.querySelectorAll('button').forEach(function (b) { b.disabled = false; });
+    }
   }
 </script>
 </body>
