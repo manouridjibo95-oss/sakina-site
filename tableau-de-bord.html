@@ -1,94 +1,140 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<title>Mon tableau de bord — Sakina</title>
+<meta name="description" content="Suivez vos intentions, la complétude de votre profil et vos vues sur Sakina.">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mon tableau de bord — Sakina</title>
+<meta name="theme-color" content="#123832">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='%23123832'/><g fill='none' stroke='%23B8925A' stroke-width='1.3'><rect x='6.2' y='6.2' width='11.6' height='11.6'/><rect x='6.2' y='6.2' width='11.6' height='11.6' transform='rotate(45 12 12)'/></g></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --teal-900:#123832; --teal-700:#1B4D3E;
-    --sand-100:#F4EEE1; --sand-50:#FAF6ED;
-    --gold-500:#B8925A; --ink-900:#2B2621; --ink-600:#5A5248; --line:#DFD5BE;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  body{background:var(--sand-50); color:var(--ink-900); font-family:'Work Sans', sans-serif; padding:24px 16px 60px;}
-  .wrap{max-width:640px; margin:0 auto;}
-  h1{font-family:'Fraunces', serif; font-size:1.6rem; color:var(--teal-900); margin-bottom:6px;}
-  .back{display:inline-block; margin-bottom:20px; font-size:0.85rem; color:var(--ink-600); text-decoration:none;}
-  .signin-notice{background:#FBE8E4; color:#8A2E1E; padding:14px; border-radius:3px; font-size:0.9rem; margin-top:20px;}
-  .signin-notice a{color:#8A2E1E; font-weight:600;}
-
-  .stats{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:24px;}
-  .stat-card{
-    background:var(--sand-100); border:1px solid var(--line); border-radius:5px;
-    padding:20px; text-align:center;
-  }
-  .stat-card .num{font-family:'Fraunces', serif; font-size:2rem; color:var(--teal-900);}
-  .stat-card .label{font-size:0.82rem; color:var(--ink-600); margin-top:4px;}
-
-  .completion{
-    margin-top:20px; background:var(--sand-100); border:1px solid var(--line); border-radius:5px; padding:20px;
-  }
-  .completion-head{display:flex; justify-content:space-between; align-items:baseline;}
-  .completion-head .title{font-size:0.92rem; font-weight:500; color:var(--ink-900);}
-  .completion-head .pct{font-family:'Fraunces', serif; font-size:1.3rem; color:var(--gold-500);}
-  .bar{height:8px; background:var(--line); border-radius:4px; margin-top:12px; overflow:hidden;}
-  .bar-fill{height:100%; background:var(--gold-500); border-radius:4px;}
-  .completion-note{margin-top:12px; font-size:0.85rem; color:var(--ink-600);}
-  .completion-note a{color:var(--teal-700); font-weight:500;}
-</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sakina.css">
+<script>document.documentElement.dataset.auth=(function(){try{return localStorage.getItem('sakina_user')?'member':'guest';}catch(e){return 'guest';}})();</script>
 </head>
 <body>
-  <div class="wrap">
-    <a href="/" class="back">← Retour à l'accueil</a>
-    <h1>Mon tableau de bord</h1>
-
-    <div id="authNotice" class="signin-notice" style="display:none;">
-      Vous devez d'abord <a href="/connexion.html">vous connecter</a>.
-    </div>
-
-    <div id="content" style="display:none;">
-      <div class="stats">
-        <div class="stat-card">
-          <div class="num" id="intentionsCount">–</div>
-          <div class="label">Intentions reçues</div>
-        </div>
-        <div class="stat-card">
-          <div class="num" id="sentCount">–</div>
-          <div class="label">Intentions envoyées</div>
-        </div>
-      </div>
-
-      <div class="completion">
-        <div class="completion-head">
-          <div class="title">Profil complété</div>
-          <div class="pct" id="pctLabel">–</div>
-        </div>
-        <div class="bar"><div class="bar-fill" id="barFill" style="width:0%;"></div></div>
-        <div class="completion-note" id="completionNote"></div>
+<header class="site-header">
+  <div class="shell nav">
+    <a class="brand" href="/">
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="5.6" y="5.6" width="12.8" height="12.8"/><rect x="5.6" y="5.6" width="12.8" height="12.8" transform="rotate(45 12 12)"/></svg>
+      <span class="brand-name">Sakina</span>
+    </a>
+    <div class="nav-panel" data-nav-panel>
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="/profils.html">Profils</a>
+        <a href="/compatibilite.html" data-auth="member">Affinités</a>
+        <a href="/intentions.html">Intentions</a>
+        <a href="/tableau-de-bord.html">Tableau de bord</a>
+        <a href="/#tarifs">Tarifs</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn btn-quiet" href="/connexion.html" data-auth="guest">Se connecter</a>
+        <a class="btn btn-primary" href="/inscription.html" data-auth="guest">Créer mon compte</a>
+        <a class="btn btn-quiet" href="/profil.html" data-auth="member">Mon profil</a>
+        <button class="btn btn-ghost" type="button" data-logout data-auth="member">Se déconnecter</button>
       </div>
     </div>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Ouvrir le menu"><span></span></button>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="shell">
+    <h1 id="dashTitle">Mon tableau de bord</h1>
+    <p>Un aperçu de votre présence sur Sakina.</p>
+  </div>
+</section>
+
+<main class="shell shell-narrow page-body">
+  <div id="authNotice" class="notice" style="display:none;">
+    Vous devez d'abord <a href="/connexion.html">vous connecter</a> pour voir votre tableau de bord.
   </div>
 
-<script>
-  const userJson = localStorage.getItem('sakina_user');
-  const authNotice = document.getElementById('authNotice');
-  const content = document.getElementById('content');
+  <div id="content" style="display:none;">
+    <div class="dash-grid">
+      <div class="stat"><div class="num" id="intentionsCount">–</div><div class="label">Intentions reçues</div></div>
+      <div class="stat"><div class="num" id="sentCount">–</div><div class="label">Intentions envoyées</div></div>
+      <div class="stat"><div class="num" id="viewsCount">–</div><div class="label">Vues du profil</div></div>
+      <div class="stat"><div class="num" id="pctStat">–</div><div class="label">Profil complété</div></div>
+    </div>
 
-  if (!userJson) {
+    <div class="panel panel-pad progress-panel">
+      <div class="progress-head">
+        <div class="title">Complétude de votre profil</div>
+        <div class="pct" id="pctLabel">–</div>
+      </div>
+      <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+      <p class="progress-note" id="completionNote"></p>
+    </div>
+
+    <div class="panel panel-pad progress-panel" id="affinityPanel" style="margin-top:16px;">
+      <div class="progress-head">
+        <div class="title">Vos affinités</div>
+        <div class="pct" id="affPct">–</div>
+      </div>
+      <div class="bar"><div class="bar-fill" id="affBar"></div></div>
+      <p class="progress-note" id="affNote">Chargement…</p>
+    </div>
+
+    <div class="panel panel-pad" style="margin-top:16px; display:flex; gap:11px; flex-wrap:wrap; align-items:center;">
+      <span style="font-size:.9rem; color:var(--ink-600); margin-right:auto;">Continuer votre recherche</span>
+      <a class="btn btn-ghost btn-sm" href="/intentions.html">Mes intentions</a>
+      <a class="btn btn-primary btn-sm" href="/profils.html">Parcourir les profils</a>
+    </div>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <a class="brand" href="/">
+          <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="5.6" y="5.6" width="12.8" height="12.8"/><rect x="5.6" y="5.6" width="12.8" height="12.8" transform="rotate(45 12 12)"/></svg>
+          <span class="brand-name">Sakina</span>
+        </a>
+        <p class="footer-blurb">Une mise en relation en vue du mariage, pensée pour la pudeur, la clarté des intentions et la place du wali.</p>
+      </div>
+      <div class="footer-col">
+        <h4>La plateforme</h4>
+        <a href="/profils.html">Parcourir les profils</a>
+        <a href="/profil.html">Mon profil</a>
+        <a href="/compatibilite.html">Mes affinités</a>
+        <a href="/intentions.html">Mes intentions</a>
+        <a href="/tableau-de-bord.html">Tableau de bord</a>
+      </div>
+      <div class="footer-col">
+        <h4>En savoir plus</h4>
+        <a href="/#pourquoi">Pourquoi Sakina</a>
+        <a href="/#comment">Comment ça marche</a>
+        <a href="/#tarifs">Tarifs</a>
+        <a href="/#faq">Questions fréquentes</a>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>Sakina — mise en relation pour le mariage en islam</span>
+      <span>© 2026 Sakina</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/sakina.js"></script>
+<script>
+  var user = Sakina.currentUser();
+  var authNotice = document.getElementById('authNotice');
+  var content = document.getElementById('content');
+
+  if (!user) {
     authNotice.style.display = 'block';
   } else {
     content.style.display = 'block';
-    const user = JSON.parse(userJson);
-    loadStats(user);
-    loadCompletion(user);
+    loadStats();
+    loadCompletion();
+    loadAffinities();
   }
 
-  async function loadStats(user) {
+  async function loadStats() {
     try {
-      const res = await fetch(`/api/get-intentions?userId=${user.id}`);
+      const res = await fetch('/api/get-intentions?userId=' + user.id);
       const data = await res.json();
       document.getElementById('intentionsCount').textContent = (data.received || []).length;
       document.getElementById('sentCount').textContent = (data.sent || []).length;
@@ -98,32 +144,78 @@
     }
   }
 
-  async function loadCompletion(user) {
+  async function loadCompletion() {
+    var note = document.getElementById('completionNote');
     try {
-      const res = await fetch(`/api/get-profile?userId=${user.id}`);
+      const res = await fetch('/api/get-profile?userId=' + user.id);
       const data = await res.json();
-      const profile = data.profile;
-      const note = document.getElementById('completionNote');
+      var profile = data.profile;
 
       if (!profile) {
-        document.getElementById('pctLabel').textContent = '0%';
-        document.getElementById('barFill').style.width = '0%';
-        note.innerHTML = 'Vous n\'avez pas encore de profil. <a href="/profil.html">Créez-le maintenant</a>.';
+        setProgress(0);
+        document.getElementById('viewsCount').textContent = '0';
+        note.innerHTML = "Vous n'avez pas encore de profil. <a href=\"/profil.html\">Créez-le maintenant</a>.";
         return;
       }
 
-      const fields = ['first_name', 'age', 'city', 'gender', 'bio', 'practice', 'wali_name'];
-      const filled = fields.filter(f => profile[f] !== null && profile[f] !== '' && profile[f] !== undefined).length;
-      const pct = Math.round((filled / fields.length) * 100);
+      if (profile.first_name) {
+        document.getElementById('dashTitle').textContent = 'Bonjour, ' + profile.first_name;
+      }
+      document.getElementById('viewsCount').textContent = profile.views_count || 0;
 
-      document.getElementById('pctLabel').textContent = pct + '%';
-      document.getElementById('barFill').style.width = pct + '%';
+      var fields = ['first_name', 'age', 'city', 'gender', 'bio', 'practice', 'wali_name'];
+      var filled = fields.filter(function (f) {
+        return profile[f] !== null && profile[f] !== '' && profile[f] !== undefined;
+      }).length;
+      var pct = Math.round((filled / fields.length) * 100);
+
+      setProgress(pct);
       note.innerHTML = pct < 100
-        ? 'Complétez-le pour être vu davantage. <a href="/profil.html">Compléter mon profil</a>.'
-        : 'Votre profil est complet !';
+        ? 'Un profil complet est bien plus consulté. <a href="/profil.html">Compléter mon profil</a>.'
+        : 'Votre profil est complet. <a href="/profils.html">Parcourez les profils</a>.';
     } catch (err) {
       document.getElementById('pctLabel').textContent = '–';
+      note.textContent = 'Vos informations de profil n’ont pas pu être chargées.';
     }
+  }
+
+  async function loadAffinities() {
+    var note = document.getElementById('affNote');
+    var bar = document.getElementById('affBar');
+    var pctEl = document.getElementById('affPct');
+    try {
+      const res = await fetch('/api/get-compatibility?userId=' + encodeURIComponent(user.id));
+      if (!res.ok) throw new Error('http');
+      const data = await res.json();
+      var done = data.completion.done;
+      var total = data.completion.total;
+      var pct = total ? Math.round((done / total) * 100) : 0;
+
+      pctEl.textContent = pct + '%';
+      requestAnimationFrame(function () { bar.style.width = pct + '%'; });
+
+      note.innerHTML = pct === 0
+        ? 'Sans affinités renseignées, aucun score de proximité ne peut être calculé. ' +
+          '<a href="/compatibilite.html">Répondre au questionnaire</a>.'
+        : pct < 100
+          ? done + ' réponse' + (done > 1 ? 's' : '') + ' sur ' + total + '. ' +
+            'Il en faut au moins deux tiers pour qu\'un score s\'affiche. ' +
+            '<a href="/compatibilite.html">Continuer</a>.'
+          : 'Questionnaire complet. Vos affinités apparaissent sur chaque profil. ' +
+            '<a href="/compatibilite.html">Modifier mes réponses</a>.';
+    } catch (err) {
+      pctEl.textContent = '–';
+      note.textContent = 'Vos affinités n\'ont pas pu être chargées.';
+    }
+  }
+
+  function setProgress(pct) {
+    document.getElementById('pctLabel').textContent = pct + '%';
+    document.getElementById('pctStat').textContent = pct + '%';
+    // Laisse le navigateur peindre la largeur nulle avant d'animer
+    requestAnimationFrame(function () {
+      document.getElementById('barFill').style.width = pct + '%';
+    });
   }
 </script>
 </body>

@@ -3,383 +3,235 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#123832">
 <title>Sakina — Mise en relation pour le mariage en islam</title>
+<meta name="description" content="Sakina accompagne les célibataires musulmans vers un mariage réfléchi : intentions claires, échanges pudiques et possibilité d'impliquer un wali à chaque étape.">
+<meta property="og:title" content="Sakina — Mise en relation pour le mariage en islam">
+<meta property="og:description" content="Profils sincères, échanges pudiques, wali intégré. Créez votre profil gratuitement.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='%23123832'/><g fill='none' stroke='%23B8925A' stroke-width='1.3'><rect x='6.2' y='6.2' width='11.6' height='11.6'/><rect x='6.2' y='6.2' width='11.6' height='11.6' transform='rotate(45 12 12)'/></g></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --teal-900:#123832; --teal-700:#1B4D3E;
-    --sand-100:#F4EEE1; --sand-50:#FAF6ED;
-    --gold-500:#B8925A; --gold-300:#D9BD8E;
-    --ink-900:#2B2621; --ink-600:#5A5248;
-    --line:#DFD5BE;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{background:var(--sand-50); color:var(--ink-900); font-family:'Work Sans', sans-serif; line-height:1.5;}
-  h1,h2,h3,.display{font-family:'Fraunces', serif; font-weight:500; letter-spacing:-0.01em;}
-  a{color:inherit;}
-  .wrap{max-width:1100px; margin:0 auto; padding:0 28px;}
-
-  header{position:sticky; top:0; z-index:20; background:rgba(250,246,237,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line);}
-  nav{display:flex; align-items:center; justify-content:space-between; padding:18px 28px; max-width:1100px; margin:0 auto; gap:16px; flex-wrap:wrap;}
-  .logo{display:flex; align-items:center; gap:10px; font-family:'Fraunces',serif; font-size:1.3rem; color:var(--teal-900);}
-  .logo svg{width:26px; height:26px;}
-  .navlinks{display:flex; gap:28px; font-size:0.9rem; color:var(--ink-600); flex-wrap:wrap;}
-  .navlinks a{text-decoration:none; transition:color .2s;}
-  .navlinks a:hover{color:var(--teal-700);}
-  .nav-right{display:flex; gap:10px; align-items:center;}
-  .btn{display:inline-block; padding:11px 22px; border-radius:2px; font-size:0.9rem; font-weight:500; text-decoration:none; border:1px solid transparent; cursor:pointer; transition:all .2s;}
-  .btn-primary{background:var(--teal-700); color:var(--sand-50);}
-  .btn-primary:hover{background:var(--teal-900);}
-  .btn-ghost{border-color:var(--teal-700); color:var(--teal-700); background:transparent;}
-  .btn-ghost:hover{background:var(--teal-700); color:var(--sand-50);}
-
-  /* HOME DASHBOARD (logged in) */
-  .home-dash{background:var(--sand-100); border-bottom:1px solid var(--line); display:none;}
-  .home-dash-inner{max-width:1100px; margin:0 auto; padding:32px 28px;}
-  .home-dash h2{font-family:'Fraunces', serif; font-size:1.1rem; color:var(--teal-900); margin-bottom:16px;}
-  .home-dash .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
-  .home-dash .stat-card{background:var(--sand-50); border:1px solid var(--line); border-radius:5px; padding:18px; text-align:center;}
-  .home-dash .stat-card .num{font-family:'Fraunces', serif; font-size:1.8rem; color:var(--teal-900);}
-  .home-dash .stat-card .label{font-size:0.8rem; color:var(--ink-600); margin-top:4px;}
-  @media (max-width:600px){ .home-dash .stats{grid-template-columns:1fr 1fr; gap:8px;} .home-dash .stat-card{padding:12px 8px;} .home-dash .stat-card .num{font-size:1.4rem;} .home-dash .stat-card .label{font-size:0.7rem;} }
-
-  /* HERO */
-.hero{
-    position:relative; overflow:hidden; padding:88px 0 64px; color:var(--sand-100);
-   background:linear-gradient(rgba(18,56,50,0.45), rgba(18,56,50,0.55)), url('/hero-banner.jpg') center/cover no-repeat;
-  }
-    background:linear-gradient(rgba(18,56,50,0.72), rgba(18,56,50,0.82)), url('/hero-banner.jpg') center/cover no-repeat;
-  }}
-  .hero::before{
-    content:''; position:absolute; right:-120px; top:-140px; width:520px; height:520px;
-    background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><g fill="none" stroke="%23D9BD8E" stroke-width="0.6" opacity="0.5"><polygon points="100,10 122,70 185,70 133,108 153,170 100,132 47,170 67,108 15,70 78,70"/><circle cx="100" cy="100" r="90"/><circle cx="100" cy="100" r="60"/></g></svg>') no-repeat center/contain;
-    opacity:0.55;
-  }
-  .hero-inner{position:relative; z-index:2; max-width:640px;}
-  .eyebrow{font-size:0.78rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-300); margin-bottom:16px; font-weight:600;}
-  .hero h1{font-size:clamp(2rem, 4.5vw, 3.1rem); line-height:1.14; color:var(--sand-50);}
-  .hero p{margin-top:20px; font-size:1.05rem; color:#D8CFBE; max-width:520px;}
-  .hero-cta{margin-top:30px; display:flex; gap:14px; flex-wrap:wrap;}
-  .hero-note{margin-top:18px; font-size:0.84rem; color:#A9C2B8;}
-
-  /* STATS BAR */
-  .statsbar{background:var(--sand-100); border-bottom:1px solid var(--line); padding:28px 0;}
-  .statsbar .wrap{display:flex; justify-content:space-around; flex-wrap:wrap; gap:24px; text-align:center;}
-  .statsbar .item .icon{font-size:1.3rem;}
-  .statsbar .item .val{font-family:'Fraunces', serif; font-size:1.3rem; color:var(--teal-900); margin-top:4px;}
-  .statsbar .item .lbl{font-size:0.78rem; color:var(--ink-600); margin-top:2px;}
-
-  section{padding:80px 0;}
-  .section-head{max-width:580px; margin-bottom:48px;}
-  .section-eyebrow{font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-500); font-weight:600; margin-bottom:12px;}
-  .section-head h2{font-size:clamp(1.6rem,3vw,2.2rem); color:var(--teal-900);}
-  .section-head p{margin-top:14px; color:var(--ink-600); font-size:1rem;}
-  .section-center{text-align:center; max-width:640px; margin:0 auto 48px;}
-
-  /* WHY */
-  .why{background:var(--teal-900); color:var(--sand-100);}
-  .why .section-head h2{color:var(--sand-50);}
-  .why .section-head p{color:#C9D6CD;}
-  .why-lines p{font-size:1.05rem; line-height:1.9; color:#D8CFBE; max-width:600px;}
-  .why-lines p.emph{color:var(--gold-300); font-weight:500;}
-
-  /* FEATURES GRID */
-  .features{display:grid; grid-template-columns:repeat(4,1fr); gap:24px;}
-  .feature{border-top:2px solid var(--teal-700); padding-top:16px;}
-  .feature .ic{font-size:1.4rem; color:var(--gold-500);}
-  .feature h3{margin-top:10px; font-size:1.05rem; color:var(--teal-900);}
-  .feature p{margin-top:8px; color:var(--ink-600); font-size:0.9rem;}
-  @media (max-width:900px){ .features{grid-template-columns:1fr 1fr;} }
-  @media (max-width:560px){ .features{grid-template-columns:1fr;} }
-
-  /* STEPS */
-  .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:30px;}
-  .step{border-top:2px solid var(--teal-700); padding-top:18px;}
-  .step .num{font-family:'Fraunces',serif; font-size:1.5rem; color:var(--gold-500);}
-  .step h3{margin-top:10px; font-size:1.05rem; color:var(--teal-900);}
-  .step p{margin-top:8px; color:var(--ink-600); font-size:0.9rem;}
-  @media (max-width:900px){ .steps{grid-template-columns:1fr 1fr;} }
-  @media (max-width:560px){ .steps{grid-template-columns:1fr;} }
-
-  /* VERSE */
-  .verse{background:var(--sand-100); border-bottom:1px solid var(--line);}
-  .verse-card{max-width:760px; margin:0 auto; text-align:center;}
-  .verse-ar{font-size:1.25rem; line-height:2; color:var(--teal-900); direction:rtl; font-family:'Fraunces', serif;}
-  .verse-fr{margin-top:16px; font-size:0.95rem; font-style:italic; color:var(--ink-600); line-height:1.6;}
-  .verse-ref{margin-top:12px; font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold-500); font-weight:600;}
-
-  /* DEMO */
-  .demo{background:var(--sand-100); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
-  .demo-grid{display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;}
-  .demo-text p{margin-top:16px; color:var(--ink-600);}
-  .demo-list{margin-top:24px; display:flex; flex-direction:column; gap:14px;}
-  .demo-list li{list-style:none; display:flex; gap:12px; align-items:flex-start; font-size:0.95rem; color:var(--ink-900);}
-  .demo-list .dot{width:6px; height:6px; border-radius:50%; background:var(--gold-500); margin-top:8px; flex-shrink:0;}
-  .card{background:var(--sand-50); border:1px solid var(--line); border-radius:4px; overflow:hidden; box-shadow:0 20px 40px -24px rgba(18,56,50,0.35);}
-  .card-photo{height:220px; position:relative; overflow:hidden; background:linear-gradient(135deg,#274F45,#123832);}
-  .card-photo .blur-layer{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(18px); background:rgba(18,56,50,0.35); transition:opacity .5s ease;}
-  .card-photo .blur-layer.revealed{opacity:0; pointer-events:none;}
-  .card-photo .silhouette{width:74px; height:74px; border-radius:50%; background:rgba(244,238,225,0.25);}
-  .card-photo .reveal-btn{position:absolute; bottom:12px; right:12px; z-index:3; font-size:0.78rem; padding:7px 14px; border-radius:2px; background:var(--sand-50); color:var(--teal-900); border:none; cursor:pointer; font-weight:500;}
-  .card-body{padding:20px 22px 24px;}
-  .card-body .name{font-family:'Fraunces',serif; font-size:1.2rem; color:var(--teal-900);}
-  .card-body .meta{margin-top:4px; font-size:0.85rem; color:var(--ink-600);}
-  .card-body .tags{margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;}
-  .tag{font-size:0.75rem; padding:4px 10px; border:1px solid var(--line); border-radius:20px; color:var(--ink-600);}
-  .card-body .actions{margin-top:18px; display:flex; gap:10px;}
-  .card-body .actions .btn{padding:9px 16px; font-size:0.85rem;}
-  @media (max-width:800px){ .demo-grid{grid-template-columns:1fr;} }
-
-  /* FAQ */
-  .faq-item{border-bottom:1px solid var(--line); padding:20px 0;}
-  .faq-item summary{cursor:pointer; font-weight:500; font-size:1rem; color:var(--teal-900); list-style:none;}
-  .faq-item summary::-webkit-details-marker{display:none;}
-  .faq-item summary::after{content:'+'; float:right; color:var(--gold-500); font-size:1.2rem;}
-  .faq-item[open] summary::after{content:'–';}
-  .faq-item p{margin-top:12px; color:var(--ink-600); font-size:0.92rem; line-height:1.6;}
-
-  /* PRICING */
-  .pricing-grid{display:grid; grid-template-columns:1fr 1fr; gap:28px; max-width:820px;}
-  .plan{border:1px solid var(--line); border-radius:4px; padding:32px 28px; background:var(--sand-50);}
-  .plan.premium{border-color:var(--teal-700); position:relative; background:var(--teal-900); color:var(--sand-100);}
-  .plan.premium .plan-name, .plan.premium h3{color:var(--sand-50);}
-  .plan-badge{position:absolute; top:-12px; right:24px; background:var(--gold-500); color:var(--teal-900); font-size:0.72rem; font-weight:600; padding:4px 12px; border-radius:20px;}
-  .plan-name{font-size:0.85rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-600); font-weight:600;}
-  .plan-price{font-family:'Fraunces',serif; font-size:2.2rem; margin-top:10px; color:var(--teal-900);}
-  .plan.premium .plan-price{color:var(--sand-50);}
-  .plan-price span{font-size:1rem; font-family:'Work Sans',sans-serif; color:var(--ink-600); font-weight:400;}
-  .plan.premium .plan-price span{color:#B9CBC3;}
-  .plan-feats{margin-top:22px; display:flex; flex-direction:column; gap:11px;}
-  .plan-feats li{list-style:none; font-size:0.92rem; display:flex; gap:10px;}
-  .plan-feats li::before{content:'—'; color:var(--gold-500); flex-shrink:0;}
-  .plan .btn{margin-top:24px; width:100%; text-align:center;}
-  .plan-alt{margin-top:14px; font-size:0.82rem; text-align:center;}
-  .plan-alt a{color:var(--gold-300); font-weight:500; text-decoration:underline;}
-  .plan:not(.premium) .plan-alt a{color:var(--teal-700);}
-  @media (max-width:700px){ .pricing-grid{grid-template-columns:1fr;} }
-
-  /* CLOSING CTA */
-  .closing{background:var(--teal-900); color:var(--sand-100); text-align:center;}
-  .closing .bism{font-size:0.85rem; color:var(--gold-300); margin-bottom:10px;}
-  .closing h2{color:var(--sand-50); font-size:1.8rem;}
-  .closing p{margin-top:14px; color:#C9D6CD; max-width:480px; margin-left:auto; margin-right:auto;}
-  .closing .btn{margin-top:26px;}
-
-  footer{background:var(--teal-900); color:#A9C2B8; padding:40px 0; font-size:0.85rem; border-top:1px solid #234B41;}
-  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
-
-  @media (max-width:760px){ .navlinks{display:none;} }
-  :focus-visible{outline:2px solid var(--gold-500); outline-offset:2px;}
-</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sakina.css">
+<script>document.documentElement.dataset.auth=(function(){try{return localStorage.getItem('sakina_user')?'member':'guest';}catch(e){return 'guest';}})();</script>
 </head>
 <body>
 
-<header>
-  <nav>
-    <div class="logo">
-      <svg viewBox="0 0 24 24" fill="none"><polygon points="12,2 14.5,9.5 22,9.5 16,14 18,22 12,17 6,22 8,14 2,9.5 9.5,9.5" stroke="#B8925A" stroke-width="1.1"/></svg>
-      Sakina
+<header class="site-header">
+  <div class="shell nav">
+    <a class="brand" href="/">
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="5.6" y="5.6" width="12.8" height="12.8"/><rect x="5.6" y="5.6" width="12.8" height="12.8" transform="rotate(45 12 12)"/></svg>
+      <span class="brand-name">Sakina</span>
+    </a>
+    <div class="nav-panel" data-nav-panel>
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="#pourquoi">Pourquoi Sakina</a>
+        <a href="#comment">Comment ça marche</a>
+        <a href="/profils.html">Profils</a>
+        <a href="#tarifs">Tarifs</a>
+        <a href="/compatibilite.html" data-auth="member">Affinités</a>
+        <a href="/tableau-de-bord.html" data-auth="member">Tableau de bord</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn btn-quiet" href="/connexion.html" data-auth="guest">Se connecter</a>
+        <a class="btn btn-primary" href="/inscription.html" data-auth="guest">Créer mon compte</a>
+        <a class="btn btn-quiet" href="/profil.html" data-auth="member">Mon profil</a>
+        <button class="btn btn-ghost" type="button" data-logout data-auth="member">Se déconnecter</button>
+      </div>
     </div>
-    <div class="navlinks">
-      <a href="#pourquoi">Pourquoi Sakina</a>
-      <a href="#comment">Comment ça marche</a>
-      <a href="#tarifs">Tarifs</a>
-      <a href="/tableau-de-bord.html">Mon tableau de bord</a>
-      <a href="/intentions.html">Mes intentions</a>
-    </div>
-    <div class="nav-right">
-      <a href="/connexion.html" class="btn btn-ghost" id="loginBtn">Se connecter</a>
-      <button class="btn btn-ghost" id="logoutBtn" style="display:none; cursor:pointer;" onclick="localStorage.removeItem('sakina_user'); window.location.href='/';">Se déconnecter</button>
-      <a href="/profil.html" class="btn btn-primary">Créer mon profil</a>
-    </div>
-  </nav>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Ouvrir le menu"><span></span></button>
+  </div>
 </header>
 
-<section class="home-dash" id="homeDash">
-  <div class="home-dash-inner">
-    <h2 id="homeDashGreeting">Bon retour</h2>
-    <div class="stats">
-      <div class="stat-card">
-        <div class="num" id="homeIntentionsReceived">–</div>
-        <div class="label">Intentions reçues</div>
-      </div>
-      <div class="stat-card">
-        <div class="num" id="homeIntentionsSent">–</div>
-        <div class="label">Intentions envoyées</div>
-      </div>
-      <div class="stat-card">
-        <div class="num" id="homeCompletion">–</div>
-        <div class="label">Profil complété</div>
-      </div>
-      <div class="stat-card">
-        <div class="num" id="homeViews">–</div>
-        <div class="label">Vues du profil</div>
-      </div>
+<!-- Reprise pour les membres connectés -->
+<section class="resume-bar" id="homeDash" style="display:none;">
+  <div class="shell resume-inner">
+    <div class="resume-head">
+      <h2 id="homeDashGreeting">Bon retour</h2>
+      <a href="/tableau-de-bord.html">Voir mon tableau de bord →</a>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="num" id="homeIntentionsReceived">–</div><div class="label">Intentions reçues</div></div>
+      <div class="stat"><div class="num" id="homeIntentionsSent">–</div><div class="label">Intentions envoyées</div></div>
+      <div class="stat"><div class="num" id="homeCompletion">–</div><div class="label">Profil complété</div></div>
+      <div class="stat"><div class="num" id="homeViews">–</div><div class="label">Vues du profil</div></div>
     </div>
   </div>
 </section>
 
 <section class="hero">
-  <div class="wrap hero-inner">
-    <div class="eyebrow">Mise en relation en vue du mariage</div>
-    <h1>Trouvez votre moitié avec bienveillance</h1>
-    <p>Sakina accompagne les célibataires musulmans vers un mariage réfléchi : profils vérifiés, échanges pudiques, et la possibilité d'impliquer un wali à chaque étape.</p>
-    <div class="hero-cta">
-      <a href="/profil.html" class="btn btn-primary">Créer mon profil gratuitement</a>
-      <a href="#comment" class="btn btn-ghost" style="color:#F4EEE1; border-color:#4C6E63;">Comment ça marche</a>
+  <div class="shell hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow on-dark rise">Mise en relation en vue du mariage</div>
+      <h1 class="rise d1">Trouvez votre moitié avec <em>bienveillance</em></h1>
+      <p class="hero-lede rise d2">Sakina accompagne les célibataires musulmans vers un mariage réfléchi : intentions claires, échanges pudiques, et la possibilité d'impliquer un wali à chaque étape.</p>
+      <div class="hero-cta rise d3">
+        <a href="/inscription.html" class="btn btn-gold" data-auth="guest">Créer mon profil gratuitement</a>
+        <a href="/profils.html" class="btn btn-gold" data-auth="member">Parcourir les profils</a>
+        <a href="#comment" class="btn btn-ghost on-dark">Comment ça marche</a>
+      </div>
+      <p class="hero-note rise d4">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>
+        Inscription gratuite · Aucune carte bancaire requise
+      </p>
     </div>
-    <div class="hero-note">Inscription gratuite · Aucune carte requise</div>
+    <figure class="hero-arch rise d2">
+      <img src="/hero-banner.jpg" alt="Deux mains tenant une tasse de thé, évoquant un foyer paisible" loading="eager" width="400" height="533">
+      <div class="hero-arch-frame"></div>
+      <figcaption class="hero-arch-caption">
+        <strong>Sakîna</strong>
+        La quiétude que l'on trouve auprès de l'autre.
+      </figcaption>
+    </figure>
   </div>
 </section>
 
-<section class="statsbar">
-  <div class="wrap">
-    <div class="item">
-      <div class="icon">🕌</div>
-      <div class="val">100%</div>
-      <div class="lbl">Halal</div>
+<section class="band band-tight band-sand">
+  <div class="shell trust">
+    <div class="trust-item" data-reveal="0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.4-3 8.1-7 9.5-4-1.4-7-5.1-7-9.5V6l7-3Z"/><path d="M9.2 12.2 11 14l3.8-3.8"/></svg>
+      <div>
+        <div class="t">Un cadre halal, sans ambiguïté</div>
+        <div class="d">Une seule intention reconnue ici : le mariage.</div>
+      </div>
     </div>
-    <div class="item">
-      <div class="icon">🌱</div>
-      <div class="val">Nouvelle</div>
-      <div class="lbl">Communauté en construction</div>
+    <div class="trust-item" data-reveal="90">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-7"/><path d="M12 14c0-3.3-2.4-6-5.5-6 0 3.3 2.4 6 5.5 6Z"/><path d="M12 14c0-3.9 2.8-7 6.2-7 0 3.9-2.8 7-6.2 7Z"/></svg>
+      <div>
+        <div class="t">Une communauté naissante</div>
+        <div class="d">Sakina démarre : les premiers membres façonnent le ton.</div>
+      </div>
     </div>
-    <div class="item">
-      <div class="icon">🤝</div>
-      <div class="val">Vous</div>
-      <div class="lbl">Pourriez être parmi les premiers</div>
+    <div class="trust-item" data-reveal="180">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5c0-3 2.5-4.8 5.5-4.8s5.5 1.8 5.5 4.8"/><path d="M16 6.2a3.2 3.2 0 0 1 0 6.1"/><path d="M17.5 15.2c2.1.5 3.5 2 3.5 4.3"/></svg>
+      <div>
+        <div class="t">Le wali à sa juste place</div>
+        <div class="d">Ajoutez votre tuteur au dossier, dès le premier échange.</div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="why" id="pourquoi">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-eyebrow">Pourquoi Sakina</div>
-      <h2>Recréer de vraies opportunités de rencontre</h2>
+<section class="band band-dark ornament-corner" id="pourquoi">
+  <div class="shell why-grid">
+    <div class="section-head" style="margin-bottom:0;">
+      <div class="eyebrow on-dark">Pourquoi Sakina</div>
+      <h2>Recréer de vraies occasions de rencontre</h2>
     </div>
     <div class="why-lines">
-      <p>À l'âge où l'on souhaite construire un foyer, beaucoup se retrouvent seuls face à ce choix important — non pas par manque de volonté, mais par manque d'opportunités réelles.</p>
-      <p>Les études, le travail, les responsabilités prennent toute la place. Et les bonnes rencontres deviennent rares.</p>
-      <p class="emph">Sakina existe pour recréer ces opportunités, dans un cadre respectueux, simple et aligné avec vos valeurs.</p>
+      <p data-reveal="0">À l'âge où l'on souhaite construire un foyer, beaucoup se retrouvent seuls face à ce choix important — non pas par manque de volonté, mais par manque d'occasions réelles.</p>
+      <p data-reveal="80">Les études, le travail, les responsabilités prennent toute la place. Et les bonnes rencontres se raréfient.</p>
+      <p class="emph" data-reveal="160">Sakina existe pour recréer ces occasions, dans un cadre respectueux, simple et aligné avec vos valeurs.</p>
     </div>
   </div>
 </section>
 
-<section id="fonctionnalites">
-  <div class="wrap">
+<section class="band" id="fonctionnalites">
+  <div class="shell">
     <div class="section-head">
-      <div class="section-eyebrow">Une plateforme pensée pour vous</div>
+      <div class="eyebrow">Une plateforme pensée pour vous</div>
       <h2>Chaque détail compte</h2>
-      <p>Conçue en accord avec les valeurs islamiques et les besoins de la communauté.</p>
+      <p class="lede">Conçue en accord avec les valeurs islamiques et les besoins concrets de la communauté.</p>
     </div>
     <div class="features">
-      <div class="feature">
-        <div class="ic">◈</div>
-        <h3>Profils réels</h3>
-        <p>Chaque profil renseigne son intention claire de mariage.</p>
-      </div>
-      <div class="feature">
-        <div class="ic">♡</div>
-        <h3>Compatibilité</h3>
-        <p>Filtres selon la pratique religieuse et le mode de vie.</p>
-      </div>
-      <div class="feature">
-        <div class="ic">✉</div>
+      <article class="feature" data-reveal="0">
+        <svg class="feature-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6"/><path d="M4.8 20c0-3.7 3.2-6 7.2-6s7.2 2.3 7.2 6"/></svg>
+        <h3>Des profils qui disent l'essentiel</h3>
+        <p>Chaque membre renseigne son intention, sa situation et son projet de vie. Pas de vitrine, pas de faux-semblants.</p>
+      </article>
+      <article class="feature" data-reveal="80">
+        <svg class="feature-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-9.3A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.7C19 15.6 12 20 12 20Z"/></svg>
+        <h3>Compatibilité réelle</h3>
+        <p>Filtrez selon la pratique religieuse, la région et le mode de vie.</p>
+      </article>
+      <article class="feature" data-reveal="160">
+        <svg class="feature-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>
         <h3>Wali intégré</h3>
-        <p>Option d'ajouter votre wali/tuteur pour un cadre rassurant.</p>
-      </div>
-      <div class="feature">
-        <div class="ic">✦</div>
-        <h3>Intention sincère</h3>
-        <p>Une plateforme pensée uniquement pour le mariage sérieux.</p>
-      </div>
+        <p>Renseignez votre tuteur en un champ, visible dès votre fiche.</p>
+      </article>
+      <article class="feature" data-reveal="240">
+        <svg class="feature-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2 14.3 9l6.2.3-4.8 3.9 1.6 6-5.3-3.5L6.7 19l1.6-6L3.5 9.3 9.7 9Z"/></svg>
+        <h3>Une intention, une seule</h3>
+        <p>Aucune logique de divertissement, aucun classement à faire défiler. Sakina sert le mariage sérieux, et rien d'autre.</p>
+      </article>
     </div>
   </div>
 </section>
 
-<section id="comment">
-  <div class="wrap">
+<section class="band band-sand band-rule" id="comment">
+  <div class="shell">
     <div class="section-head">
-      <div class="section-eyebrow">Le parcours</div>
+      <div class="eyebrow">Le parcours</div>
       <h2>Comment ça marche ?</h2>
-      <p>Chaque étape est pensée pour avancer avec intention, sans précipitation ni ambiguïté.</p>
+      <p class="lede">Quatre étapes pour avancer avec intention, sans précipitation ni ambiguïté.</p>
     </div>
     <div class="steps">
-      <div class="step">
-        <div class="num">01</div>
-        <h3>Inscription</h3>
-        <p>Créez votre compte en quelques minutes.</p>
-      </div>
-      <div class="step">
-        <div class="num">02</div>
-        <h3>Profil complet</h3>
-        <p>Renseignez votre profil et votre projet de vie.</p>
-      </div>
-      <div class="step">
-        <div class="num">03</div>
-        <h3>Découvrez</h3>
-        <p>Parcourez des profils compatibles.</p>
-      </div>
-      <div class="step">
-        <div class="num">04</div>
-        <h3>Intention & échange</h3>
-        <p>Échangez dans un cadre respectueux.</p>
-      </div>
+      <div class="step" data-reveal="0"><div class="num">01</div><h3>Inscription</h3><p>Créez votre compte en quelques minutes.</p></div>
+      <div class="step" data-reveal="90"><div class="num">02</div><h3>Profil complet</h3><p>Renseignez votre situation et votre projet de vie.</p></div>
+      <div class="step" data-reveal="180"><div class="num">03</div><h3>Découverte</h3><p>Parcourez les profils compatibles.</p></div>
+      <div class="step" data-reveal="270"><div class="num">04</div><h3>Intention &amp; échange</h3><p>Déclarez votre intention, puis échangez avec pudeur.</p></div>
     </div>
   </div>
 </section>
 
-<section class="verse">
-  <div class="wrap verse-card">
-    <p class="verse-ar" id="verseAr">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ</p>
+<section class="band band-rule">
+  <div class="shell verse">
+    <div class="ornament-rule" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="5.6" y="5.6" width="12.8" height="12.8"/><rect x="5.6" y="5.6" width="12.8" height="12.8" transform="rotate(45 12 12)"/></svg>
+    </div>
+    <p class="verse-ar" lang="ar" dir="rtl" id="verseAr">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ</p>
     <p class="verse-fr" id="verseFr">« Et parmi Ses signes, Il a créé pour vous, de vous-mêmes, des épouses afin que vous trouviez auprès d'elles la tranquillité (sakîna). Et Il a mis entre vous de l'affection et de la bonté. Il y a certes là des signes pour des gens qui réfléchissent. »</p>
     <p class="verse-ref" id="verseRef">Sourate Ar-Rûm, 30:21</p>
   </div>
 </section>
 
-<section class="demo" id="profils">
-  <div class="wrap demo-grid">
-    <div class="demo-text">
-      <div class="section-eyebrow">Aperçu</div>
-      <h2>Des profils pensés pour la pudeur</h2>
-      <p>La photo reste floutée tant que les deux personnes n'ont pas donné leur accord. Essayez :</p>
+<section class="band band-sand band-rule" id="profils">
+  <div class="shell demo-grid">
+    <div>
+      <div class="section-head" style="margin-bottom:0;">
+        <div class="eyebrow">Aperçu</div>
+        <h2>Des profils pensés pour la pudeur</h2>
+        <p class="lede">La photo reste floutée tant que les deux personnes n'ont pas donné leur accord. Essayez :</p>
+      </div>
       <ul class="demo-list">
-        <li><span class="dot"></span>Aucune photo visible avant intérêt mutuel confirmé</li>
-        <li><span class="dot"></span>Champs d'intention clairs : statut, projet de vie, région</li>
-        <li><span class="dot"></span>Option d'ajouter un tuteur/wali en un clic</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Aucune photo visible avant intérêt mutuel confirmé</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Champs d'intention clairs : situation, projet de vie, région</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Tuteur / wali renseigné et visible sur la fiche</li>
       </ul>
     </div>
-    <div class="card">
-      <div class="card-photo">
-        <div class="blur-layer" id="blurLayer"><div class="silhouette"></div></div>
-        <button class="reveal-btn" id="revealBtn" onclick="document.getElementById('blurLayer').classList.add('revealed'); this.textContent='Photo dévoilée';">Révéler après accord</button>
+    <div class="preview-card" data-reveal="0">
+      <div class="preview-photo">
+        <div class="veil" id="blurLayer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6"/><path d="M4.8 20c0-3.7 3.2-6 7.2-6s7.2 2.3 7.2 6"/></svg>
+        </div>
+        <button class="reveal-btn" type="button" id="revealBtn">Révéler après accord</button>
       </div>
-      <div class="card-body">
+      <div class="preview-body">
         <div class="name">Amina, 27 ans</div>
-        <div class="meta">Lyon, France · En vue du mariage</div>
+        <div class="meta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          Lyon, France · En vue du mariage
+        </div>
         <div class="tags">
           <span class="tag">Pratiquante</span>
           <span class="tag">Souhaite des enfants</span>
-          <span class="tag">Wali ajouté</span>
+          <span class="tag tag-wali">Wali renseigné</span>
         </div>
-        <div class="actions">
-          <a class="btn btn-primary" href="/profils.html">Voir les profils</a>
-        </div>
+        <a class="btn btn-primary btn-block" href="/profils.html">Voir les profils</a>
       </div>
     </div>
   </div>
 </section>
 
-<section id="faq">
-  <div class="wrap">
+<section class="band" id="faq">
+  <div class="shell">
     <div class="section-head">
-      <div class="section-eyebrow">Questions fréquentes</div>
+      <div class="eyebrow">Questions fréquentes</div>
       <h2>Tout ce qu'il faut savoir</h2>
     </div>
-    <div style="max-width:720px;">
+    <div class="faq">
       <details class="faq-item">
         <summary>À qui s'adresse Sakina ?</summary>
         <p>Aux musulmans pratiquants ou en chemin, célibataires, divorcés ou veufs, qui cherchent un mariage halal sérieux. Que vous soyez débutant·e dans la pratique ou très ancré·e, l'essentiel est l'intention.</p>
@@ -390,100 +242,138 @@
       </details>
       <details class="faq-item">
         <summary>L'inscription est-elle gratuite ?</summary>
-        <p>Oui, 100% gratuite, sans carte bancaire. Vous pouvez créer un profil, parcourir la communauté et envoyer des intentions. Un abonnement Premium optionnel débloque davantage d'échanges et de visibilité.</p>
+        <p>Oui, entièrement gratuite et sans carte bancaire. Vous pouvez créer un profil, parcourir la communauté et envoyer des intentions. L'abonnement Premium, facultatif, débloque davantage d'échanges et de visibilité.</p>
       </details>
       <details class="faq-item">
         <summary>Mes informations sont-elles protégées ?</summary>
-        <p>Vos photos restent floutées jusqu'à accord mutuel. Vous pouvez ajouter votre wali pour plus de confiance, et gérer votre profil à tout moment.</p>
+        <p>Vos photos restent floutées jusqu'à accord mutuel. Vous pouvez renseigner votre wali pour plus de confiance, et modifier ou compléter votre profil à tout moment.</p>
       </details>
     </div>
   </div>
 </section>
 
-<section id="tarifs">
-  <div class="wrap">
+<section class="band band-sand band-rule" id="tarifs">
+  <div class="shell">
     <div class="section-head">
-      <div class="section-eyebrow">Tarifs</div>
+      <div class="eyebrow">Tarifs</div>
       <h2>Commencez gratuitement, avancez à votre rythme</h2>
-      <p>Un abonnement mensuel Premium débloque une recherche sans limite.</p>
+      <p class="lede">L'abonnement Premium débloque une recherche sans limite. Il reste facultatif.</p>
     </div>
-    <div class="pricing-grid">
-      <div class="plan">
+    <div class="pricing">
+      <div class="plan" data-reveal="0">
         <div class="plan-name">Gratuit</div>
-        <div class="plan-price">0€ <span>/ mois</span></div>
+        <div class="plan-price">0 € <span>/ mois</span></div>
         <ul class="plan-feats">
-          <li>Profil complet et vérifié</li>
-          <li>5 mises en relation par mois</li>
-          <li>10 messages par mois</li>
-          <li>Recherche avec filtres de base</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Profil complet et vérifié</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>5 mises en relation par mois</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>10 messages par mois</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Recherche avec filtres de base</li>
         </ul>
-        <a href="/profil.html" class="btn btn-ghost">Créer mon profil</a>
+        <a href="/inscription.html" class="btn btn-ghost btn-block">Créer mon profil</a>
       </div>
-      <div class="plan premium">
+      <div class="plan plan-featured" data-reveal="90">
         <div class="plan-badge">Le plus choisi</div>
         <div class="plan-name">Premium</div>
-        <div class="plan-price">14,99€ <span>/ mois</span></div>
+        <div class="plan-price">14,99 € <span>/ mois</span></div>
         <ul class="plan-feats">
-          <li>Mises en relation et messages illimités</li>
-          <li>Filtres avancés (école de pensée, projet de vie)</li>
-          <li>Voir qui a consulté votre profil</li>
-          <li>Profil mis en avant dans les résultats</li>
-          <li>Accès dédié pour le wali/tuteur</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Mises en relation et messages illimités</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Filtres avancés (école de pensée, projet de vie)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Voir qui a consulté votre profil</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Profil mis en avant dans les résultats</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Accès dédié pour le wali / tuteur</li>
         </ul>
-        <a href="https://buy.stripe.com/test_14A14odmm50LgAV2MD33W00" class="btn btn-primary" style="background:var(--gold-500); color:var(--teal-900);">Passer à Premium (carte)</a>
+        <a href="https://buy.stripe.com/test_14A14odmm50LgAV2MD33W00" class="btn btn-gold btn-block">Passer à Premium (carte)</a>
         <div class="plan-alt">ou <a href="/paiement-mobile-money.html">payer par Mobile Money</a></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="closing">
-  <div class="wrap">
-    <div class="bism">بسم الله</div>
+<section class="band band-dark ornament-corner">
+  <div class="shell closing">
+    <div class="bism" lang="ar" dir="rtl">بسم الله</div>
     <h2>Commencez votre recherche</h2>
     <p>Que votre union soit facilitée et bénie. Rejoignez Sakina et faites le premier pas avec sincérité.</p>
-    <a href="/profil.html" class="btn btn-primary" style="background:var(--gold-500); color:var(--teal-900); border-color:var(--gold-500);">Créer mon compte gratuitement</a>
+    <a href="/inscription.html" class="btn btn-gold" data-auth="guest">Créer mon compte gratuitement</a>
+    <a href="/profils.html" class="btn btn-gold" data-auth="member">Parcourir les profils</a>
   </div>
 </section>
 
-<footer>
-  <div class="wrap">
-    <div>Sakina — Mise en relation pour le mariage en islam</div>
-    <div>© 2026 Sakina</div>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <a class="brand" href="/">
+          <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="5.6" y="5.6" width="12.8" height="12.8"/><rect x="5.6" y="5.6" width="12.8" height="12.8" transform="rotate(45 12 12)"/></svg>
+          <span class="brand-name">Sakina</span>
+        </a>
+        <p class="footer-blurb">Une mise en relation en vue du mariage, pensée pour la pudeur, la clarté des intentions et la place du wali.</p>
+      </div>
+      <div class="footer-col">
+        <h4>La plateforme</h4>
+        <a href="/profils.html">Parcourir les profils</a>
+        <a href="/profil.html">Mon profil</a>
+        <a href="/compatibilite.html">Mes affinités</a>
+        <a href="/intentions.html">Mes intentions</a>
+        <a href="/tableau-de-bord.html">Tableau de bord</a>
+      </div>
+      <div class="footer-col">
+        <h4>En savoir plus</h4>
+        <a href="/#pourquoi">Pourquoi Sakina</a>
+        <a href="/#comment">Comment ça marche</a>
+        <a href="/#tarifs">Tarifs</a>
+        <a href="/#faq">Questions fréquentes</a>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>Sakina — mise en relation pour le mariage en islam</span>
+      <span>© 2026 Sakina</span>
+    </div>
   </div>
 </footer>
 
+<script src="/assets/sakina.js"></script>
 <script>
-  const homeUserJson = localStorage.getItem('sakina_user');
-  if (homeUserJson) {
-    document.getElementById('loginBtn').style.display = 'none';
-    document.getElementById('logoutBtn').style.display = 'inline-block';
-    const homeUser = JSON.parse(homeUserJson);
+  // Démonstration du dévoilement de photo
+  document.getElementById('revealBtn').addEventListener('click', function () {
+    document.getElementById('blurLayer').classList.add('revealed');
+    this.textContent = 'Photo dévoilée';
+    this.disabled = true;
+  });
+
+  // Bandeau de reprise pour les membres connectés
+  var homeUser = Sakina.currentUser();
+  if (homeUser) {
     document.getElementById('homeDash').style.display = 'block';
 
-    fetch(`/api/get-intentions?userId=${homeUser.id}`)
-      .then(res => res.json())
-      .then(data => {
+    fetch('/api/get-intentions?userId=' + homeUser.id)
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
         document.getElementById('homeIntentionsReceived').textContent = (data.received || []).length;
         document.getElementById('homeIntentionsSent').textContent = (data.sent || []).length;
       })
-      .catch(() => {});
+      .catch(function () {});
 
-    fetch(`/api/get-profile?userId=${homeUser.id}`)
-      .then(res => res.json())
-      .then(data => {
-        const profile = data.profile;
+    fetch('/api/get-profile?userId=' + homeUser.id)
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        var profile = data.profile;
         if (!profile) {
           document.getElementById('homeCompletion').textContent = '0%';
           document.getElementById('homeViews').textContent = '0';
           return;
         }
-        const fields = ['first_name', 'age', 'city', 'gender', 'bio', 'practice', 'wali_name'];
-        const filled = fields.filter(f => profile[f] !== null && profile[f] !== '' && profile[f] !== undefined).length;
+        if (profile.first_name) {
+          document.getElementById('homeDashGreeting').textContent = 'Bon retour, ' + profile.first_name;
+        }
+        var fields = ['first_name', 'age', 'city', 'gender', 'bio', 'practice', 'wali_name'];
+        var filled = fields.filter(function (f) {
+          return profile[f] !== null && profile[f] !== '' && profile[f] !== undefined;
+        }).length;
         document.getElementById('homeCompletion').textContent = Math.round((filled / fields.length) * 100) + '%';
         document.getElementById('homeViews').textContent = profile.views_count || 0;
       })
-      .catch(() => {});
+      .catch(function () {});
   }
 </script>
 

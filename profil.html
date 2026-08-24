@@ -1,83 +1,89 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<title>Mon profil — Sakina</title>
+<meta name="description" content="Complétez votre profil Sakina : situation, projet de vie et tuteur.">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mon profil — Sakina</title>
+<meta name="theme-color" content="#123832">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='%23123832'/><g fill='none' stroke='%23B8925A' stroke-width='1.3'><rect x='6.2' y='6.2' width='11.6' height='11.6'/><rect x='6.2' y='6.2' width='11.6' height='11.6' transform='rotate(45 12 12)'/></g></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --teal-900:#123832; --teal-700:#1B4D3E;
-    --sand-100:#F4EEE1; --sand-50:#FAF6ED;
-    --gold-500:#B8925A; --ink-900:#2B2621; --ink-600:#5A5248; --line:#DFD5BE;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  body{
-    background:var(--teal-900); color:var(--ink-900);
-    font-family:'Work Sans', sans-serif;
-    min-height:100vh; display:flex; align-items:center; justify-content:center;
-    padding:24px;
-  }
-  .card{
-    background:var(--sand-50); border-radius:6px; padding:40px 32px;
-    max-width:460px; width:100%; box-shadow:0 30px 60px -30px rgba(0,0,0,0.5);
-  }
-  .eyebrow{font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-500); font-weight:600; margin-bottom:10px;}
-  h1{font-family:'Fraunces', serif; font-size:1.6rem; color:var(--teal-900); font-weight:500;}
-  p.sub{margin-top:10px; color:var(--ink-600); font-size:0.9rem;}
-  form{margin-top:24px; display:flex; flex-direction:column; gap:14px;}
-  label{font-size:0.85rem; font-weight:500; color:var(--ink-900); display:block; margin-bottom:5px;}
-  input, select, textarea{
-    width:100%; padding:11px 13px; border:1px solid var(--line); border-radius:3px;
-    font-family:'Work Sans', sans-serif; font-size:0.92rem; background:#fff;
-  }
-  textarea{resize:vertical; min-height:80px;}
-  input:focus, select:focus, textarea:focus{outline:2px solid var(--gold-500); outline-offset:1px; border-color:var(--gold-500);}
-  .row{display:flex; gap:12px;}
-  .row > div{flex:1;}
-  button{
-    margin-top:6px; padding:13px; border:none; border-radius:3px;
-    background:var(--teal-700); color:var(--sand-50); font-weight:500; font-size:0.95rem;
-    cursor:pointer;
-  }
-  button:disabled{opacity:0.6;}
-  .msg{margin-top:14px; padding:11px 13px; border-radius:3px; font-size:0.85rem; display:none;}
-  .msg.error{background:#FBE8E4; color:#8A2E1E; display:block;}
-  .msg.success{background:#E4EFE9; color:#1B4D3E; display:block;}
-  .back{display:block; margin-top:20px; text-align:center; font-size:0.85rem; color:var(--ink-600); text-decoration:none;}
-  .signin-notice{background:#FBE8E4; color:#8A2E1E; padding:14px; border-radius:3px; font-size:0.9rem; margin-top:20px;}
-  .signin-notice a{color:#8A2E1E; font-weight:600;}
-</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sakina.css">
+<script>document.documentElement.dataset.auth=(function(){try{return localStorage.getItem('sakina_user')?'member':'guest';}catch(e){return 'guest';}})();</script>
 </head>
 <body>
-  <div class="card">
-    <div class="eyebrow">Sakina</div>
-    <h1>Compléter mon profil</h1>
-    <p class="sub">Ces informations seront visibles par les autres membres.</p>
-
-    <div id="authNotice" class="signin-notice" style="display:none;">
-      Vous devez d'abord <a href="/connexion.html">vous connecter</a> ou <a href="/inscription.html">créer un compte</a>.
-    </div>
-
-    <form id="profileForm" style="display:none;">
-      <div>
-        <label for="firstName">Prénom</label>
-        <input type="text" id="firstName" required>
+<header class="site-header">
+  <div class="shell nav">
+    <a class="brand" href="/">
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="5.6" y="5.6" width="12.8" height="12.8"/><rect x="5.6" y="5.6" width="12.8" height="12.8" transform="rotate(45 12 12)"/></svg>
+      <span class="brand-name">Sakina</span>
+    </a>
+    <div class="nav-panel" data-nav-panel>
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="/profils.html">Profils</a>
+        <a href="/compatibilite.html" data-auth="member">Affinités</a>
+        <a href="/intentions.html">Intentions</a>
+        <a href="/tableau-de-bord.html">Tableau de bord</a>
+        <a href="/#tarifs">Tarifs</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn btn-quiet" href="/connexion.html" data-auth="guest">Se connecter</a>
+        <a class="btn btn-primary" href="/inscription.html" data-auth="guest">Créer mon compte</a>
+        <a class="btn btn-quiet" href="/profil.html" data-auth="member">Mon profil</a>
+        <button class="btn btn-ghost" type="button" data-logout data-auth="member">Se déconnecter</button>
       </div>
-      <div>
-        <label for="photo">Photo de profil (facultatif)</label>
+    </div>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Ouvrir le menu"><span></span></button>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="shell">
+    <h1>Mon profil</h1>
+    <p>Ces informations seront visibles par les autres membres. Un profil complet est bien plus consulté.</p>
+  </div>
+</section>
+
+<main class="shell shell-narrow page-body" style="max-width:620px;">
+  <div id="authNotice" class="notice" style="display:none;">
+    Vous devez d'abord <a href="/connexion.html">vous connecter</a> ou <a href="/inscription.html">créer un compte</a>.
+  </div>
+
+  <div class="panel panel-pad" id="formLoading" style="display:none;">
+    <div class="skeleton sk-line" style="width:38%;"></div>
+    <div class="skeleton sk-line" style="width:100%; margin-top:18px;"></div>
+    <div class="skeleton sk-line" style="width:100%;"></div>
+    <div class="skeleton sk-line" style="width:64%;"></div>
+    <span class="visually-hidden">Chargement de votre profil…</span>
+  </div>
+
+  <div class="panel panel-pad" id="formPanel" style="display:none;">
+    <p class="notice notice-info" id="formIntro" style="display:none;">
+      Vos informations actuelles sont pré-remplies. Modifiez ce que vous souhaitez, le reste sera conservé.
+    </p>
+    <form id="profileForm" class="auth-form" novalidate>
+      <div class="field">
+        <label for="firstName">Prénom</label>
+        <input type="text" id="firstName" required autocomplete="given-name">
+      </div>
+
+      <div class="field">
+        <label for="photo">Photo de profil <span class="hint" style="font-weight:400;">— facultatif</span></label>
         <input type="file" id="photo" accept="image/*">
-        <div id="photoPreviewWrap" style="margin-top:10px; display:none;">
-          <img id="photoPreview" style="width:90px; height:90px; border-radius:50%; object-fit:cover; border:1px solid var(--line);">
+        <div class="hint">Elle reste floutée tant que l'intérêt n'est pas mutuel.</div>
+        <div id="photoPreviewWrap" style="margin-top:12px; display:none;">
+          <img id="photoPreview" alt="Aperçu de votre photo" class="avatar" style="width:92px; height:92px;">
         </div>
       </div>
-      <div class="row">
-        <div>
+
+      <div class="field-row">
+        <div class="field">
           <label for="age">Âge</label>
           <input type="number" id="age" min="18" max="90" required>
         </div>
-        <div>
+        <div class="field">
           <label for="gender">Genre</label>
           <select id="gender" required>
             <option value="">Choisir</option>
@@ -86,12 +92,14 @@
           </select>
         </div>
       </div>
-      <div>
+
+      <div class="field">
         <label for="city">Ville</label>
-        <input type="text" id="city" required>
+        <input type="text" id="city" required autocomplete="address-level2">
       </div>
-      <div>
-        <label for="practice">Pratique religieuse (facultatif)</label>
+
+      <div class="field">
+        <label for="practice">Pratique religieuse <span class="hint" style="font-weight:400;">— facultatif</span></label>
         <select id="practice">
           <option value="">Préférer ne pas préciser</option>
           <option value="pratiquant">Pratiquant·e</option>
@@ -99,57 +107,128 @@
           <option value="en-cheminement">En cheminement</option>
         </select>
       </div>
-      <div>
+
+      <div class="field">
         <label for="bio">À propos de moi</label>
         <textarea id="bio" placeholder="Quelques mots sur vous, vos valeurs, votre projet de vie…"></textarea>
       </div>
-      <div>
-        <label for="waliName">Nom du wali/tuteur (facultatif)</label>
+
+      <div class="field">
+        <label for="waliName">Nom du wali / tuteur <span class="hint" style="font-weight:400;">— facultatif</span></label>
         <input type="text" id="waliName" placeholder="Ex : mon père, mon frère…">
       </div>
-      <div>
-        <label for="waliContact">Contact du wali (facultatif)</label>
+
+      <div class="field">
+        <label for="waliContact">Contact du wali <span class="hint" style="font-weight:400;">— facultatif</span></label>
         <input type="text" id="waliContact" placeholder="Téléphone ou email">
       </div>
-      <button type="submit" id="submitBtn">Enregistrer mon profil</button>
-      <div class="msg" id="msg"></div>
+
+      <button type="submit" id="submitBtn" class="btn btn-primary btn-block">Enregistrer mon profil</button>
+      <div class="msg" id="msg" role="alert"></div>
     </form>
-
-    <a href="/" class="back">← Retour à l'accueil</a>
   </div>
+</main>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <a class="brand" href="/">
+          <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="5.6" y="5.6" width="12.8" height="12.8"/><rect x="5.6" y="5.6" width="12.8" height="12.8" transform="rotate(45 12 12)"/></svg>
+          <span class="brand-name">Sakina</span>
+        </a>
+        <p class="footer-blurb">Une mise en relation en vue du mariage, pensée pour la pudeur, la clarté des intentions et la place du wali.</p>
+      </div>
+      <div class="footer-col">
+        <h4>La plateforme</h4>
+        <a href="/profils.html">Parcourir les profils</a>
+        <a href="/profil.html">Mon profil</a>
+        <a href="/compatibilite.html">Mes affinités</a>
+        <a href="/intentions.html">Mes intentions</a>
+        <a href="/tableau-de-bord.html">Tableau de bord</a>
+      </div>
+      <div class="footer-col">
+        <h4>En savoir plus</h4>
+        <a href="/#pourquoi">Pourquoi Sakina</a>
+        <a href="/#comment">Comment ça marche</a>
+        <a href="/#tarifs">Tarifs</a>
+        <a href="/#faq">Questions fréquentes</a>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>Sakina — mise en relation pour le mariage en islam</span>
+      <span>© 2026 Sakina</span>
+    </div>
+  </div>
+</footer>
 
+<script src="/assets/sakina.js"></script>
 <script>
-  const userJson = localStorage.getItem('sakina_user');
-  const authNotice = document.getElementById('authNotice');
-  const form = document.getElementById('profileForm');
+  var user = Sakina.currentUser();
+  var authNotice = document.getElementById('authNotice');
+  var formPanel = document.getElementById('formPanel');
+  var loader = document.getElementById('formLoading');
 
-  if (!userJson) {
+  if (!user) {
     authNotice.style.display = 'block';
   } else {
-    form.style.display = 'flex';
+    // Le formulaire enregistre l'intégralité du profil : l'afficher vide
+    // écraserait les réponses déjà données. On charge avant de montrer.
+    loader.style.display = 'block';
+    fetch('/api/get-profile?userId=' + encodeURIComponent(user.id))
+      .then(function (r) { return r.ok ? r.json() : { profile: null }; })
+      .catch(function () { return { profile: null }; })
+      .then(function (data) {
+        if (data && data.profile) prefill(data.profile);
+        loader.style.display = 'none';
+        formPanel.style.display = 'block';
+      });
   }
 
-  const msg = document.getElementById('msg');
-  const submitBtn = document.getElementById('submitBtn');
-  const photoInput = document.getElementById('photo');
-  const photoPreview = document.getElementById('photoPreview');
-  const photoPreviewWrap = document.getElementById('photoPreviewWrap');
-  let photoData = null;
+  function prefill(p) {
+    var setters = {
+      firstName: p.first_name, age: p.age, city: p.city, gender: p.gender,
+      practice: p.practice, bio: p.bio, waliName: p.wali_name, waliContact: p.wali_contact
+    };
+    Object.keys(setters).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el && setters[id] !== null && setters[id] !== undefined) el.value = setters[id];
+    });
 
-  photoInput.addEventListener('change', () => {
-    const file = photoInput.files[0];
+    if (p.photo_data) {
+      photoData = p.photo_data;           // conservée si l'utilisateur n'en choisit pas d'autre
+      photoPreview.src = p.photo_data;
+      photoPreviewWrap.style.display = 'block';
+    }
+
+    submitLabel = 'Mettre à jour mon profil';
+    document.getElementById('submitBtn').textContent = submitLabel;
+    var intro = document.getElementById('formIntro');
+    if (intro) intro.style.display = 'block';
+  }
+
+  var form = document.getElementById('profileForm');
+  var msg = document.getElementById('msg');
+  var submitBtn = document.getElementById('submitBtn');
+  var photoInput = document.getElementById('photo');
+  var photoPreview = document.getElementById('photoPreview');
+  var photoPreviewWrap = document.getElementById('photoPreviewWrap');
+  var photoData = null;
+  var submitLabel = 'Enregistrer mon profil';
+
+  photoInput.addEventListener('change', function () {
+    var file = photoInput.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const maxSize = 400;
-        let w = img.width, h = img.height;
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var img = new Image();
+      img.onload = function () {
+        var maxSize = 400;
+        var w = img.width, h = img.height;
         if (w > h && w > maxSize) { h = h * (maxSize / w); w = maxSize; }
         else if (h > maxSize) { w = w * (maxSize / h); h = maxSize; }
 
-        const canvas = document.createElement('canvas');
+        var canvas = document.createElement('canvas');
         canvas.width = w;
         canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
@@ -163,14 +242,14 @@
     reader.readAsDataURL(file);
   });
 
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', async function (e) {
     e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
     msg.className = 'msg';
     msg.textContent = '';
     submitBtn.disabled = true;
     submitBtn.textContent = 'Enregistrement…';
-
-    const user = JSON.parse(userJson);
 
     try {
       const res = await fetch('/api/create-profile', {
@@ -196,15 +275,16 @@
         msg.textContent = data.error || "Une erreur s'est produite.";
       } else {
         msg.className = 'msg success';
-        msg.textContent = 'Profil enregistré !';
+        msg.textContent = 'Profil enregistré.';
+        Sakina.toast('Profil enregistré.');
       }
     } catch (err) {
       msg.className = 'msg error';
-      msg.textContent = "Impossible de contacter le serveur. Réessayez.";
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Enregistrer mon profil';
+      msg.textContent = 'Impossible de contacter le serveur. Réessayez.';
     }
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = submitLabel;
   });
 </script>
 </body>

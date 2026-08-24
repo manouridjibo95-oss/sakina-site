@@ -16,7 +16,9 @@ export default async (req: Request, context: Context) => {
   const db = getDatabase();
 
   const [profile] = await db.sql`
-    SELECT first_name, age, city, gender, practice, bio, wali_name, wali_contact, photo_data, views_count
+    SELECT user_id, first_name, age, city, gender, practice, bio, wali_name, wali_contact,
+           photo_data, views_count, prayer, marriage_timeline, children_wish,
+           relocation, family_view, temperament, niyyah
     FROM profiles
     WHERE user_id = ${userId}
   `;
