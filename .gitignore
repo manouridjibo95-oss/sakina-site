@@ -1,0 +1,18 @@
+# Dépendances installées par npm (déclarées dans package.json,
+# réinstallées automatiquement au déploiement)
+node_modules/
+package-lock.json
+
+# Dossier de travail local de la CLI Netlify et de l'agent
+.netlify/
+
+# Verrou généré par le runtime Deno des fonctions lors d'un « netlify dev »
+deno.lock
+
+# Variables d'environnement : ne doivent jamais être versionnées
+.env
+.env.*
+
+# Fichiers système
+.DS_Store
+Thumbs.db
