@@ -28,13 +28,16 @@ export default async (req: Request, context: Context) => {
   const [newUser] = await db.sql`
     INSERT INTO users (email, password_hash)
     VALUES (${email}, ${passwordHash})
-    RETURNING id, email, created_at
+    RETURNING id, email, created_at, is_premium
   `;
 
-  return new Response(JSON.stringify({ user: newUser }), {
-    status: 201,
-    headers: { "Content-Type": "application/json" },
-  });
+  return new Response(
+    JSON.stringify({ user: { id: newUser.id, email: newUser.email, isPremium: newUser.is_premium === true } }),
+    {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 };
 
 export const config: Config = {

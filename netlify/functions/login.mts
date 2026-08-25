@@ -14,7 +14,7 @@ export default async (req: Request, context: Context) => {
   }
 
   const db = getDatabase();
-  const [user] = await db.sql`SELECT id, email, password_hash FROM users WHERE email = ${email}`;
+  const [user] = await db.sql`SELECT id, email, password_hash, is_premium FROM users WHERE email = ${email}`;
 
   if (!user) {
     return new Response(JSON.stringify({ error: "Identifiants invalides" }), { status: 401 });
@@ -25,10 +25,13 @@ export default async (req: Request, context: Context) => {
     return new Response(JSON.stringify({ error: "Identifiants invalides" }), { status: 401 });
   }
 
-  return new Response(JSON.stringify({ user: { id: user.id, email: user.email } }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
+  return new Response(
+    JSON.stringify({ user: { id: user.id, email: user.email, isPremium: user.is_premium === true } }),
+    {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 };
 
 export const config: Config = {
