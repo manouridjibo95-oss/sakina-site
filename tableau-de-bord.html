@@ -77,6 +77,22 @@
       <p class="progress-note" id="affNote">Chargement…</p>
     </div>
 
+    <div class="panel panel-pad" id="visitorsPanel" style="margin-top:16px;">
+      <div class="visitors-head">
+        <div class="visitors-mark" id="visitorsMark"></div>
+        <div>
+          <h2>Ils ont consulté votre profil</h2>
+          <p>Les membres qui ont récemment regardé votre profil.</p>
+        </div>
+        <span class="visitors-count" id="visitorsCount" hidden></span>
+      </div>
+      <div class="visitors-list" id="visitorsList">
+        <p class="progress-note">Chargement…</p>
+      </div>
+      <div class="visitors-cta" id="visitorsCta" hidden></div>
+      <p class="visitors-note" id="visitorsNote" hidden></p>
+    </div>
+
     <div class="panel panel-pad" style="margin-top:16px; display:flex; gap:11px; flex-wrap:wrap; align-items:center;">
       <span style="font-size:.9rem; color:var(--ink-600); margin-right:auto;">Continuer votre recherche</span>
       <a class="btn btn-ghost btn-sm" href="/intentions.html">Mes intentions</a>
@@ -130,26 +146,21 @@
     loadStats();
     loadCompletion();
     loadAffinities();
+    loadVisitors();
   }
 
   async function loadStats() {
-    try {
-      const res = await fetch('/api/get-intentions?userId=' + user.id);
-      const data = await res.json();
-      document.getElementById('intentionsCount').textContent = (data.received || []).length;
-      document.getElementById('sentCount').textContent = (data.sent || []).length;
-    } catch (err) {
-      document.getElementById('intentionsCount').textContent = '–';
-      document.getElementById('sentCount').textContent = '–';
-    }
+    // Requête partagée avec la pastille du menu du compte
+    var data = await Sakina.myIntentions();
+    document.getElementById('intentionsCount').textContent = data.received.length;
+    document.getElementById('sentCount').textContent = data.sent.length;
   }
 
   async function loadCompletion() {
     var note = document.getElementById('completionNote');
     try {
-      const res = await fetch('/api/get-profile?userId=' + user.id);
-      const data = await res.json();
-      var profile = data.profile;
+      // Profil partagé avec le menu du compte : une seule requête par page
+      var profile = await Sakina.myProfile();
 
       if (!profile) {
         setProgress(0);
@@ -163,11 +174,7 @@
       }
       document.getElementById('viewsCount').textContent = profile.views_count || 0;
 
-      var fields = ['first_name', 'age', 'city', 'gender', 'bio', 'practice', 'wali_name'];
-      var filled = fields.filter(function (f) {
-        return profile[f] !== null && profile[f] !== '' && profile[f] !== undefined;
-      }).length;
-      var pct = Math.round((filled / fields.length) * 100);
+      var pct = Sakina.completion(profile);
 
       setProgress(pct);
       note.innerHTML = pct < 100
@@ -206,6 +213,77 @@
     } catch (err) {
       pctEl.textContent = '–';
       note.textContent = 'Vos affinités n\'ont pas pu être chargées.';
+    }
+  }
+
+  async function loadVisitors() {
+    var list = document.getElementById('visitorsList');
+    var cta = document.getElementById('visitorsCta');
+    var note = document.getElementById('visitorsNote');
+    var countEl = document.getElementById('visitorsCount');
+    document.getElementById('visitorsMark').innerHTML = Sakina.icon('eye', 21);
+
+    try {
+      const res = await fetch('/api/get-visitors?userId=' + encodeURIComponent(user.id));
+      if (!res.ok) throw new Error('http');
+      const data = await res.json();
+
+      if (data.isPremium) {
+        Sakina.markPremium();
+      }
+
+      if (data.week) {
+        countEl.textContent = data.week + ' cette semaine';
+        countEl.hidden = false;
+      }
+
+      if (!data.visitors.length) {
+        list.innerHTML = '<p class="progress-note">Personne n’a encore consulté votre profil. ' +
+          'Un profil complet et une photo attirent bien plus de visites. ' +
+          '<a href="/profil.html">Compléter mon profil</a>.</p>';
+        return;
+      }
+
+      list.innerHTML = data.visitors.map(function (v) {
+        var when = '<span class="visitor-when">' + Sakina.escapeHtml(Sakina.relativeTime(v.viewedAt)) + '</span>';
+        var meta = v.locked
+          ? '<span class="visitor-meta">' + Sakina.icon('lock', 12) + 'Identité visible avec Premium</span>'
+          : (v.age || v.city
+              ? '<span class="visitor-meta">' + Sakina.escapeHtml([v.age, v.city].filter(Boolean).join(' · ')) + '</span>'
+              : '');
+        var inner = Sakina.avatarMarkup(v.photo, v.firstName, 'visitor-avatar') +
+          '<span class="visitor-body"><span class="visitor-name">' + Sakina.escapeHtml(v.firstName) + '</span>' +
+          meta + '</span>' + when;
+
+        return v.locked
+          ? '<button class="visitor is-locked" type="button" data-locked>' + inner + '</button>'
+          : '<a class="visitor" href="/voir-profil.html?id=' + encodeURIComponent(v.userId) + '">' + inner + '</a>';
+      }).join('');
+
+      list.querySelectorAll('[data-locked]').forEach(function (row) {
+        row.addEventListener('click', function () { Sakina.premiumModal(); });
+      });
+
+      if (data.isPremium) {
+        note.textContent = data.total > data.shown
+          ? 'Vos ' + data.shown + ' visites les plus récentes, sur ' + data.total + ' au total.'
+          : 'Toutes vos visites récentes sont affichées.';
+        note.hidden = false;
+      } else {
+        cta.innerHTML = '<button class="btn btn-gold btn-block" type="button" id="seeVisitors">' +
+          Sakina.icon('lock', 16) + 'Voir mes visiteurs</button>';
+        cta.hidden = false;
+        document.getElementById('seeVisitors').addEventListener('click', function () { Sakina.premiumModal(); });
+        var hidden = data.total - data.shown;
+        note.textContent = hidden > 0
+          ? (hidden > 1
+              ? hidden + ' autres visiteurs sont masqués. Premium les révèle tous.'
+              : 'Un autre visiteur est masqué. Premium le révèle.')
+          : 'Premium révèle l’identité complète de vos visiteurs.';
+        note.hidden = false;
+      }
+    } catch (err) {
+      list.innerHTML = '<p class="progress-note">Vos visiteurs n’ont pas pu être chargés.</p>';
     }
   }
 

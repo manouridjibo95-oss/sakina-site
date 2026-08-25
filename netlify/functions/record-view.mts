@@ -22,6 +22,16 @@ export default async (req: Request, context: Context) => {
     UPDATE profiles SET views_count = views_count + 1 WHERE user_id = ${viewedUserId}
   `;
 
+  // Visiteur identifié : on garde une seule ligne par couple, datée de la dernière visite
+  if (viewerId) {
+    await db.sql`
+      INSERT INTO profile_views (viewed_user_id, viewer_id, viewed_at)
+      VALUES (${viewedUserId}, ${viewerId}, NOW())
+      ON CONFLICT (viewed_user_id, viewer_id)
+      DO UPDATE SET viewed_at = NOW()
+    `;
+  }
+
   return new Response(JSON.stringify({ ok: true }), {
     status: 200,
     headers: { "Content-Type": "application/json" },
